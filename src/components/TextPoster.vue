@@ -6,7 +6,7 @@ const canvas = ref<HTMLCanvasElement | null>(null)
 const contentBlocks = reactive([
   {
     name: 'text',
-    content: '大胆去做, 不要怕, 没有人在乎, 就算有人在乎, 人又算什么东西。',
+    content: '大胆去做, 不要怕, 没有人在乎, 就算有人在乎, 人又算什么东西',
     style: {
       color: '',
       fontFamily: '',
