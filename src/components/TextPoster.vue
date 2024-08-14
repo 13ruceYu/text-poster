@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import html2canvas from 'html2canvas'
+import { Button } from '@/components/ui/button'
 
 const canvas = ref<HTMLCanvasElement | null>(null)
 const contentBlocks = reactive([
@@ -69,12 +70,14 @@ const styleBlock = (index: number) => {
       <div class="mb-4" v-for="(block, index) in contentBlocks" :key="index">
         <textarea class="border-2 border-gray-300 rounded-md p-2 w-full" rows="5" v-model="block.content"></textarea>
         <div>
-          <button @click="deleteBlock(index)" class="bg-red-500 text-white px-2 py-1 rounded-md">delete</button>
-          <button @click="styleBlock(index)" class="bg-green-500 text-white px-2 py-1 rounded-md">style</button>
+          <Button variant="destructive" size="xs" class="mr-2" @click="deleteBlock(index)">delete</Button>
+          <Button variant="outline" size="xs" @click="styleBlock(index)">style</Button>
         </div>
       </div>
       <div>
-        <button @click="addBlock" class="bg-blue-500 text-white px-4 py-2 rounded-md">add</button>
+        <Button @click="addBlock">
+          添加
+        </Button>
       </div>
     </div>
     <div class="flex flex-col justify-center items-center h-screen">
@@ -83,9 +86,9 @@ const styleBlock = (index: number) => {
           <p v-for="(line, index) in block.content.split('\n')" :key="index" class="text-3xl">{{ line }}</p>
         </div>
       </div>
-      <button class="bg-blue-500 text-white px-4 py-2 rounded-md mt-4" @click="generateScreenshot">
+      <Button @click="generateScreenshot">
         下载图片
-      </button>
+      </Button>
     </div>
   </div>
 </template>
