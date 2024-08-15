@@ -2,17 +2,36 @@
 import { reactive, ref } from 'vue'
 import html2canvas from 'html2canvas'
 import { Button } from '@/components/ui/button'
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
+import { Label } from '@/components/ui/label'
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 const canvas = ref<HTMLCanvasElement | null>(null)
-const contentBlocks = reactive([
+
+// Define the types
+interface ContentBlockStyle {
+  color?: string;
+  fontFamily?: string;
+  fontSize: string;
+  textAlign?: 'left' | 'center' | 'right';
+}
+
+interface ContentBlock {
+  name: string;
+  content: string;
+  style: ContentBlockStyle;
+}
+
+const contentBlocks = reactive<ContentBlock[]>([
   {
     name: 'text',
-    content: '大胆去做, 不要怕, 没有人在乎, 就算有人在乎, 人又算什么东西',
+    content: '大胆去做，不要怕，没有人在乎，就算有人在乎，人又算什么东西。',
     style: {
-      color: '',
-      fontFamily: '',
-      fontSize: '',
-      textAlign: ''
+      color: "",
+      fontFamily: "",
+      fontSize: "32px",
+      textAlign: "left"
     }
   },
   {
@@ -21,8 +40,8 @@ const contentBlocks = reactive([
     style: {
       color: '',
       fontFamily: '',
-      fontSize: '',
-      textAlign: ''
+      fontSize: '16px',
+      textAlign: 'left'
     }
   }
 ])
@@ -53,14 +72,10 @@ const addBlock = () => {
     style: {
       color: '',
       fontFamily: '',
-      fontSize: '',
-      textAlign: ''
+      fontSize: '16px',
+      textAlign: 'left'
     }
   })
-}
-
-const styleBlock = (index: number) => {
-  console.log(index)
 }
 </script>
 
@@ -71,7 +86,48 @@ const styleBlock = (index: number) => {
         <textarea class="border-2 border-gray-300 rounded-md p-2 w-full" rows="5" v-model="block.content"></textarea>
         <div>
           <Button variant="destructive" size="xs" class="mr-2" @click="deleteBlock(index)">delete</Button>
-          <Button variant="outline" size="xs" @click="styleBlock(index)">style</Button>
+          <Popover>
+            <PopoverTrigger>
+              <Button variant="outline" size="xs">style</Button>
+            </PopoverTrigger>
+            <PopoverContent class="w-80">
+              <div class="grid grid-gap-4">
+                <div class="space-y-2">
+                  <div class="grid grid-cols-3 items-center gap-4">
+                    <Label>Font Size</Label>
+                    <Select v-model="block.style.fontSize">
+                      <SelectTrigger class="col-span-2 h-8">
+                        <SelectValue :default-value="block.style.fontSize" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="12px">12px</SelectItem>
+                        <SelectItem value="16px">16px</SelectItem>
+                        <SelectItem value="32px">32px</SelectItem>
+                        <SelectItem value="48px">48px</SelectItem>
+                        <SelectItem value="64px">64px</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div class="grid grid-cols-3 items-center gap-4">
+                    <Label>Text Align</Label>
+                    <Tabs default-value="left" v-model="block.style.textAlign">
+                      <TabsList>
+                        <TabsTrigger value="left">
+                          left
+                        </TabsTrigger>
+                        <TabsTrigger value="center">
+                          center
+                        </TabsTrigger>
+                        <TabsTrigger value="right">
+                          right
+                        </TabsTrigger>
+                      </TabsList>
+                    </Tabs>
+                  </div>
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
       <div>
@@ -81,12 +137,15 @@ const styleBlock = (index: number) => {
       </div>
     </div>
     <div class="flex flex-col justify-center items-center h-screen">
-      <div ref="canvas" class="w-[360px] bg-gray-200 text-green-700 p-4 font-mingchao">
-        <div v-for="(block, index) in contentBlocks" :key="index">
-          <p v-for="(line, index) in block.content.split('\n')" :key="index" class="text-3xl">{{ line }}</p>
+      <div ref="canvas" class="canvas w-[360px] bg-gray-200 text-green-700 p-4 font-mingchao">
+        <div v-for="(block, index) in contentBlocks" :key="index" :style="{
+          fontSize: block.style.fontSize,
+          textAlign: block.style.textAlign
+        }">
+          <p v-for="(line, index) in block.content.split('\n')" :key="index">{{ line }}</p>
         </div>
       </div>
-      <Button @click="generateScreenshot">
+      <Button class="mt-4" @click="generateScreenshot">
         下载图片
       </Button>
     </div>
