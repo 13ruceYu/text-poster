@@ -5,9 +5,12 @@
 - [ ] Customize text style (font family, text color)
 - [x] Customize canvas (width, padding, color, backgroundColor)
 - [ ] Confetti when download success
-- [ ] Customize canvas background style
-- [ ] Customize canvas filter (blur and so on)
+- [x] Responsive layout
+- [ ] Customize canvas background and filter (blur and so on)
 - [ ] Add theme templates
 - [ ] I18n
 - [ ] Save current work
 - [ ] Public share form
+- [ ] Dark mode
+- [ ] Navbar with logo
+- [ ] content scroll

@@ -50,7 +50,10 @@ const colorList = [
 const contentBlocks = reactive<ContentBlock[]>([
   {
     name: 'text',
-    content: '大胆去做，不要怕，没有人在乎，就算有人在乎，人又算什么东西。',
+    content: `大胆去做，不要怕，
+没有人在乎，
+就算有人在乎，
+人又算什么东西。`,
     style: {
       color: "",
       fontFamily: "",
@@ -116,8 +119,12 @@ const addBlock = () => {
 </script>
 
 <template>
-  <div class="grid grid-cols-2">
-    <div class="flex flex-col justify-center p-4">
+  <div :style="{ color: canvasProps.color }" class="logo fixed top-0 left-0 flex items-center justify-center">
+    <img src="@/assets/logo.svg" alt="logo" />
+    <div class="text-2xl font-bold ml-2">Text Poster</div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-screen-lg mx-auto">
+    <div class="flex flex-col justify-center p-4 order-2 md:order-1">
       <div class="mb-4" v-for="(block, index) in contentBlocks" :key="index">
         <Textarea v-model="block.content"></Textarea>
         <div class="mt-2">
@@ -193,7 +200,7 @@ const addBlock = () => {
         </Button>
       </div>
     </div>
-    <div class="flex flex-col justify-center items-center h-screen">
+    <div class="flex flex-col justify-center items-center md:min-h-screen p-4 order-1 md:order-2">
       <Card class="p-2">
         <div ref="canvas" :style="{
           width: canvasProps.width,
@@ -211,10 +218,10 @@ const addBlock = () => {
           </div>
         </div>
       </Card>
-      <div>
+      <div class="mt-4 flex items-center justify-center">
         <Popover>
           <PopoverTrigger>
-            <Button variant="outline" size="icon" class="mr-4">
+            <Button variant="outline" class="mr-4">
               <Icon icon="carbon:settings-adjust" />
             </Button>
           </PopoverTrigger>
@@ -253,7 +260,7 @@ const addBlock = () => {
             </div>
           </PopoverContent>
         </Popover>
-        <Button variant="outline" class="mt-4" @click="generateScreenshot">
+        <Button variant="outline" @click="generateScreenshot">
           Download
           <Icon class="ml-1" icon="carbon:image" />
         </Button>
