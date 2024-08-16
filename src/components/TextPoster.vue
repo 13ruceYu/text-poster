@@ -9,6 +9,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Icon } from '@iconify/vue'
+import { Card } from '@/components/ui/card'
 
 const canvas = ref<HTMLCanvasElement | null>(null)
 
@@ -29,8 +30,22 @@ interface ContentBlock {
 
 const canvasProps = reactive({
   width: '360px',
-  padding: '16px'
+  height: '',
+  padding: '16px',
+  color: '#3c7e44',
+  backgroundColor: '#e5e7eb'
 })
+
+const colorList = [
+  '#3c7e44', // Original color
+  '#3c4e7e', // Blue-ish
+  '#7e3c44', // Red-ish
+  '#7e743c', // Yellow-ish
+  '#443c7e', // Purple-ish
+  '#3c7e7e', // Cyan-ish
+  '#7e3c7e', // Magenta-ish
+
+]
 
 const contentBlocks = reactive<ContentBlock[]>([
   {
@@ -173,28 +188,33 @@ const addBlock = () => {
         </div>
       </div>
       <div>
-        <Button @click="addBlock">
+        <Button variant="outline" @click="addBlock">
           <Icon icon="carbon:add-large" /> Add Block
         </Button>
       </div>
     </div>
     <div class="flex flex-col justify-center items-center h-screen">
-      <div ref="canvas" :style="{
-        width: canvasProps.width,
-        padding: canvasProps.padding
-      }" class="canvas bg-gray-200 text-green-700 font-mingchao">
-        <div v-for="(block, index) in contentBlocks" :key="index" :style="{
-          fontSize: block.style.fontSize,
-          textAlign: block.style.textAlign,
-          marginTop: block.style.marginTop || 0
-        }">
-          <p v-for="(line, index) in block.content.split('\n')" :key="index">{{ line }}</p>
+      <Card class="p-2">
+        <div ref="canvas" :style="{
+          width: canvasProps.width,
+          height: canvasProps.height || 'auto',
+          padding: canvasProps.padding,
+          color: canvasProps.color,
+          backgroundColor: canvasProps.backgroundColor
+        }" class="canvas font-mingchao">
+          <div v-for="(block, index) in contentBlocks" :key="index" :style="{
+            fontSize: block.style.fontSize,
+            textAlign: block.style.textAlign,
+            marginTop: block.style.marginTop || 0
+          }">
+            <p v-for="(line, index) in block.content.split('\n')" :key="index">{{ line }}</p>
+          </div>
         </div>
-      </div>
+      </Card>
       <div>
         <Popover>
           <PopoverTrigger>
-            <Button variant="outline" class="mr-4">
+            <Button variant="outline" size="icon" class="mr-4">
               <Icon icon="carbon:settings-adjust" />
             </Button>
           </PopoverTrigger>
@@ -206,15 +226,36 @@ const addBlock = () => {
                   <Input class="col-span-2 h-8" v-model="canvasProps.width" />
                 </div>
                 <div class="grid grid-cols-3 items-center gap-4">
+                  <Label>Height</Label>
+                  <Input class="col-span-2 h-8" v-model="canvasProps.height" />
+                </div>
+                <div class="grid grid-cols-3 items-center gap-4">
                   <Label>Padding</Label>
                   <Input class="col-span-2 h-8" v-model="canvasProps.padding" />
+                </div>
+                <div class="grid grid-cols-3 items-center gap-4">
+                  <Label>Color</Label>
+                  <Input class="col-span-2 h-8" type="color" v-model="canvasProps.color" />
+                </div>
+                <div class="grid grid-cols-3 items-center gap-4">
+                  <Label>Background Color</Label>
+                  <Input class="col-span-2 h-8" type="color" v-model="canvasProps.backgroundColor" />
+                </div>
+                <div class="grid grid-cols-3 items-center gap-4">
+                  <Label></Label>
+                  <div class="color-list col-span-2 h-8 flex items-center">
+                    <div class="color-item inline-block w-4 h-4 mr-2 rounded-full cursor-pointer"
+                      v-for="color in colorList" :key="color" :style="{ backgroundColor: color }"
+                      @click="canvasProps.color = color"></div>
+                  </div>
                 </div>
               </div>
             </div>
           </PopoverContent>
         </Popover>
-        <Button class="mt-4" @click="generateScreenshot">
+        <Button variant="outline" class="mt-4" @click="generateScreenshot">
           Download
+          <Icon class="ml-1" icon="carbon:image" />
         </Button>
       </div>
     </div>
