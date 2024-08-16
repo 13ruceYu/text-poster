@@ -1,7 +1,10 @@
 # Text Poster
 
 - [x] Add and delete button for textarea
-- [ ] Modify text style (font, size, color, align)
-- [ ] Add colorful background
+- [x] Customize text style (font size, text align, margin top)
+- [ ] Customize text style (font family, text color)
 - [ ] Customize canvas size
+- [ ] Customize background
 - [ ] Add theme templates
+- [ ] I18n
+- [ ] Save current work
