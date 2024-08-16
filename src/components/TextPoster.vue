@@ -7,6 +7,8 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Icon } from '@iconify/vue'
 
 const canvas = ref<HTMLCanvasElement | null>(null)
 
@@ -27,6 +29,7 @@ interface ContentBlock {
 
 const canvasProps = reactive({
   width: '360px',
+  padding: '16px'
 })
 
 const contentBlocks = reactive<ContentBlock[]>([
@@ -59,7 +62,7 @@ const contentBlocks = reactive<ContentBlock[]>([
       fontFamily: '',
       fontSize: '16px',
       textAlign: 'left',
-      marginTop: '16px'
+      marginTop: '64px'
     }
   }
 ])
@@ -101,12 +104,16 @@ const addBlock = () => {
   <div class="grid grid-cols-2">
     <div class="flex flex-col justify-center p-4">
       <div class="mb-4" v-for="(block, index) in contentBlocks" :key="index">
-        <textarea class="border-2 border-gray-300 rounded-md p-2 w-full" rows="5" v-model="block.content"></textarea>
-        <div>
-          <Button variant="destructive" size="xs" class="mr-2" @click="deleteBlock(index)">delete</Button>
+        <Textarea v-model="block.content"></Textarea>
+        <div class="mt-2">
+          <Button variant="outline" size="xs" class="mr-2" @click="deleteBlock(index)">
+            <Icon icon="carbon:trash-can" />
+          </Button>
           <Popover>
             <PopoverTrigger>
-              <Button variant="outline" size="xs">style</Button>
+              <Button variant="outline" size="xs">
+                <Icon icon="carbon:color-palette" />
+              </Button>
             </PopoverTrigger>
             <PopoverContent class="w-80">
               <div class="grid grid-gap-4">
@@ -138,6 +145,8 @@ const addBlock = () => {
                         <SelectItem value="32px">32px</SelectItem>
                         <SelectItem value="48px">48px</SelectItem>
                         <SelectItem value="64px">64px</SelectItem>
+                        <SelectItem value="128px">128px</SelectItem>
+                        <SelectItem value="192px">192px</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -165,14 +174,15 @@ const addBlock = () => {
       </div>
       <div>
         <Button @click="addBlock">
-          Add block
+          <Icon icon="carbon:add-large" /> Add Block
         </Button>
       </div>
     </div>
     <div class="flex flex-col justify-center items-center h-screen">
       <div ref="canvas" :style="{
-        width: canvasProps.width
-      }" class="canvas bg-gray-200 text-green-700 p-4 font-mingchao">
+        width: canvasProps.width,
+        padding: canvasProps.padding
+      }" class="canvas bg-gray-200 text-green-700 font-mingchao">
         <div v-for="(block, index) in contentBlocks" :key="index" :style="{
           fontSize: block.style.fontSize,
           textAlign: block.style.textAlign,
@@ -184,7 +194,9 @@ const addBlock = () => {
       <div>
         <Popover>
           <PopoverTrigger>
-            <Button variant="outline" class="mr-4">style</Button>
+            <Button variant="outline" class="mr-4">
+              <Icon icon="carbon:settings-adjust" />
+            </Button>
           </PopoverTrigger>
           <PopoverContent class="w-80">
             <div class="grid grid-gap-4">
@@ -192,6 +204,10 @@ const addBlock = () => {
                 <div class="grid grid-cols-3 items-center gap-4">
                   <Label>Width</Label>
                   <Input class="col-span-2 h-8" v-model="canvasProps.width" />
+                </div>
+                <div class="grid grid-cols-3 items-center gap-4">
+                  <Label>Padding</Label>
+                  <Input class="col-span-2 h-8" v-model="canvasProps.padding" />
                 </div>
               </div>
             </div>
