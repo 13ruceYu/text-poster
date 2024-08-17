@@ -4,7 +4,7 @@
 - [x] Customize text style (font size, text align, margin top)
 - [ ] Customize text style (font family, text color)
 - [x] Customize canvas (width, padding, color, backgroundColor)
-- [ ] Confetti when download success
+- [x] Confetti when download success
 - [x] Responsive layout
 - [ ] Customize canvas background and filter (blur and so on)
 - [ ] Add theme templates
@@ -12,5 +12,6 @@
 - [ ] Save current work
 - [ ] Public share form
 - [ ] Dark mode
-- [ ] Navbar with logo
-- [ ] content scroll
+- [x] Navbar with logo
+- [ ] Footer with love
+- [ ] Content scroll

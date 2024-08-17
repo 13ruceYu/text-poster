@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Icon } from '@iconify/vue'
 import { Card } from '@/components/ui/card'
+import { confetti } from '@tsparticles/confetti'
 
 const canvas = ref<HTMLCanvasElement | null>(null)
 
@@ -84,6 +85,7 @@ const contentBlocks = reactive<ContentBlock[]>([
     }
   }
 ])
+
 // use html2canvas to generate a screenshot
 const generateScreenshot = () => {
   if (canvas.value) {
@@ -96,6 +98,11 @@ const generateScreenshot = () => {
       link.href = dataURL
       link.download = 'screenshot.png'
       link.click()
+      confetti({
+        particleCount: 120,
+        spread: 70,
+        origin: { y: 0.6, x: 0.5 },
+      });
     })
   }
 }
@@ -200,7 +207,7 @@ const addBlock = () => {
         </Button>
       </div>
     </div>
-    <div class="flex flex-col justify-center items-center md:min-h-screen p-4 order-1 md:order-2">
+    <div class="flex flex-col justify-center items-center md:min-h-screen md:pt-0 pt-10 order-1 md:order-2">
       <Card class="p-2">
         <div ref="canvas" :style="{
           width: canvasProps.width,
@@ -266,5 +273,8 @@ const addBlock = () => {
         </Button>
       </div>
     </div>
+  </div>
+  <div class="text-center text-sm text-gray-500">
+    Made with ❤️ by Bruce
   </div>
 </template>
