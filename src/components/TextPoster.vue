@@ -16,10 +16,9 @@ const canvasProps = reactive<CanvasProps>({
   height: '',
   padding: '16px',
   color: '#3c7e44',
-  backgroundColor: '#e5e7eb'
+  backgroundColor: '#e5e7eb',
+  fontFamily: 'mingchao'
 })
-
-
 
 const contentBlocks = reactive<ContentBlock[]>([
   {
@@ -30,7 +29,6 @@ const contentBlocks = reactive<ContentBlock[]>([
 人又算什么东西。`,
     style: {
       color: "",
-      fontFamily: "",
       fontSize: "32px",
       textAlign: "left"
     }
@@ -40,7 +38,6 @@ const contentBlocks = reactive<ContentBlock[]>([
     content: 'Be bold and don\'t be afraid. No one cares, even if someone cares, people are nothing.',
     style: {
       color: '',
-      fontFamily: '',
       fontSize: '16px',
       textAlign: 'left',
       marginTop: '16px'
@@ -51,7 +48,6 @@ const contentBlocks = reactive<ContentBlock[]>([
     content: '/威廉·萨默塞特·毛姆',
     style: {
       color: '',
-      fontFamily: '',
       fontSize: '16px',
       textAlign: 'left',
       marginTop: '64px'
@@ -127,8 +123,9 @@ const addBlock = () => {
           height: canvasProps.height || 'auto',
           padding: canvasProps.padding,
           color: canvasProps.color,
-          backgroundColor: canvasProps.backgroundColor
-        }" class="canvas font-mingchao">
+          backgroundColor: canvasProps.backgroundColor,
+          fontFamily: canvasProps.fontFamily
+        }" class="canvas">
           <div v-for="(block, index) in contentBlocks" :key="index" :style="{
             fontSize: block.style.fontSize,
             textAlign: block.style.textAlign,

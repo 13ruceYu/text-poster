@@ -4,6 +4,7 @@ export interface CanvasProps {
   padding: string;
   color: string;
   backgroundColor: string;
+  fontFamily: string;
 }
 
 interface ContentBlockStyle {
