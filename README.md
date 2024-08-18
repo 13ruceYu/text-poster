@@ -13,5 +13,12 @@
 - [ ] Public share form
 - [ ] Dark mode
 - [x] Navbar with logo
-- [ ] Footer with love
+- [x] Footer with love
 - [ ] Content scroll
+- [ ] Blur navbar
+- [ ] ESlint config
+- [ ] Prettier config
+- [ ] Commitlint config
+- [ ] Husky config
+- [ ] Lint-staged config
+- [ ] Editorconfig
