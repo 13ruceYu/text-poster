@@ -5,22 +5,41 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Icon } from '@iconify/vue'
 import { Card } from '@/components/ui/card'
-import { confetti } from '@tsparticles/confetti'
 import CanvasSetting from './CanvasSetting.vue'
 import BlockSetting from './BlockSetting.vue'
-import { CanvasProps, ContentBlock } from '@/types'
+import { ICanvasProps, IContentBlock } from '@/types'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 const canvas = ref<HTMLCanvasElement | null>(null)
-const canvasProps = reactive<CanvasProps>({
+
+const defaultCanvasProps: ICanvasProps = {
   width: '360px',
   height: '',
   padding: '16px',
   color: '#3c7e44',
   backgroundColor: '#e5e7eb',
   fontFamily: 'mingchao'
-})
+}
 
-const contentBlocks = reactive<ContentBlock[]>([
+const canvasProps2: ICanvasProps = {
+  width: '360px',
+  height: '',
+  padding: '16px',
+  color: '#7e3c44',
+  backgroundColor: '#e5e7eb',
+  fontFamily: 'arial'
+}
+
+const canvasProps = reactive<ICanvasProps>(defaultCanvasProps)
+
+interface Template {
+  name: string
+  content: IContentBlock[]
+  canvasProps: ICanvasProps
+  thumbnail: string
+}
+
+const mockContentBlocks: IContentBlock[] = [
   {
     name: 'text',
     content: `大胆去做，不要怕，
@@ -53,7 +72,88 @@ const contentBlocks = reactive<ContentBlock[]>([
       marginTop: '64px'
     }
   }
+]
+
+const mockContentBlocks2: IContentBlock[] = [
+  {
+    name: 'text',
+    content: `先做个垃圾出来`,
+    style: {
+      color: "",
+      fontSize: "32px",
+      textAlign: "left"
+    }
+  },
+  {
+    name: 'text',
+    content: `不制作垃圾
+你就只有
+焦虑拖延的机会`,
+    style: {
+      color: '',
+      fontSize: '16px',
+      textAlign: 'left',
+      marginTop: '16px'
+    }
+  },
+  {
+    name: 'text',
+    content: `有垃圾
+就有
+变废为宝的机会`,
+    style: {
+      color: '',
+      fontSize: '16px',
+      textAlign: 'left',
+      marginTop: '64px'
+    }
+  }
+]
+
+
+const contentBlocks = reactive<IContentBlock[]>(mockContentBlocks)
+
+
+const templateList = reactive<Template[]>([
+  {
+    name: 'default',
+    content: contentBlocks,
+    canvasProps: canvasProps,
+    thumbnail: 'https://dummyimage.com/200x300'
+  },
+  {
+    name: 'default-2',
+    content: mockContentBlocks2,
+    canvasProps: canvasProps2,
+    thumbnail: 'https://dummyimage.com/300x300'
+  },
+  {
+    name: 'default-3',
+    content: contentBlocks,
+    canvasProps: canvasProps2,
+    thumbnail: 'https://dummyimage.com/400x300'
+  },
+  {
+    name: 'default-4',
+    content: contentBlocks,
+    canvasProps: canvasProps2,
+    thumbnail: 'https://dummyimage.com/300x500'
+  },
+  {
+    name: 'default-5',
+    content: contentBlocks,
+    canvasProps: canvasProps2,
+    thumbnail: 'https://dummyimage.com/400x300'
+  },
+  {
+    name: 'default-6',
+    content: contentBlocks,
+    canvasProps: canvasProps2,
+    thumbnail: 'https://dummyimage.com/400x400'
+  },
 ])
+
+const isTemplatePopoverOpen = ref(false)
 
 // use html2canvas to generate a screenshot
 const generateScreenshot = () => {
@@ -67,11 +167,6 @@ const generateScreenshot = () => {
       link.href = dataURL
       link.download = 'screenshot.png'
       link.click()
-      confetti({
-        particleCount: 120,
-        spread: 70,
-        origin: { y: 0.6, x: 0.5 },
-      });
     })
   }
 }
@@ -92,10 +187,22 @@ const addBlock = () => {
     }
   })
 }
+
+function applyTemplate(template: Template) {
+  isTemplatePopoverOpen.value = false
+
+  contentBlocks.splice(0, contentBlocks.length, ...template.content)
+  canvasProps.width = template.canvasProps.width
+  canvasProps.height = template.canvasProps.height
+  canvasProps.padding = template.canvasProps.padding
+  canvasProps.color = template.canvasProps.color
+  canvasProps.backgroundColor = template.canvasProps.backgroundColor
+  canvasProps.fontFamily = template.canvasProps.fontFamily
+}
 </script>
 
 <template>
-  <div :style="{ color: canvasProps.color }" class="logo fixed top-0 left-0 flex items-center justify-center">
+  <div class="logo fixed top-0 left-0 flex items-center justify-center text-theme">
     <img src="@/assets/logo.svg" alt="logo" />
     <div class="text-2xl font-bold ml-2">Text Poster</div>
   </div>
@@ -137,9 +244,27 @@ const addBlock = () => {
       </Card>
       <div class="mt-4 flex items-center justify-center gap-2">
         <CanvasSetting :canvas-props="canvasProps" />
-        <Button variant="outline">
-          <Icon icon="carbon:stacked-scrolling-1" />
-        </Button>
+        <!-- <Button variant="outline">
+          <Icon icon="carbon:save-series" />
+        </Button> -->
+        <Popover v-model:open="isTemplatePopoverOpen">
+          <PopoverTrigger as-child>
+            <Button variant="outline">
+              <Icon icon="carbon:stacked-scrolling-1" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent class="w-96">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              <div v-for="template in templateList" :key="template.name" class="template-item">
+                <img :src="template.thumbnail" :alt="template.name"
+                  class="w-full h-auto rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+                  @click="applyTemplate(template)" />
+                <p class="mt-2 text-sm text-center">{{ template.name }}</p>
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
+
         <Button variant="outline" @click="generateScreenshot">
           Download
           <Icon class="ml-1" icon="carbon:image" />

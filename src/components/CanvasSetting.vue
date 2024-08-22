@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Icon } from '@iconify/vue'
-import { CanvasProps } from '@/types'
+import { ICanvasProps } from '@/types'
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select'
+import { fontFamilyOptions } from '@/types'
+
 const colorList = [
   '#3c7e44', // Original color
   '#3c4e7e', // Blue-ish
@@ -15,10 +17,9 @@ const colorList = [
   '#3c7e7e', // Cyan-ish
   '#7e3c7e', // Magenta-ish
 ]
-const fontFamilies = ['mingchao', 'helvetica', 'arial', 'simhei', 'simsong']
 
 const props = defineProps<{
-  canvasProps: CanvasProps
+  canvasProps: ICanvasProps
 }>()
 </script>
 
@@ -66,7 +67,8 @@ const props = defineProps<{
                 <SelectValue :value="props.canvasProps.fontFamily" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem v-for="fontFamily in fontFamilies" :key="fontFamily" :value="fontFamily">{{ fontFamily }}
+                <SelectItem v-for="fontFamily in fontFamilyOptions" :key="fontFamily" :value="fontFamily">{{ fontFamily
+                  }}
                 </SelectItem>
               </SelectContent>
             </Select>

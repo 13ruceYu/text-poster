@@ -5,10 +5,10 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Icon } from '@iconify/vue'
-import { ContentBlock } from '@/types'
+import { IContentBlock } from '@/types'
 
 const props = defineProps<{
-  block: ContentBlock
+  block: IContentBlock
 }>()
 </script>
 

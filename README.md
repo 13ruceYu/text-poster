@@ -1,19 +1,11 @@
 # Text Poster
 
-- [x] Add and delete button for textarea
-- [x] Customize text style (font size, text align, margin top)
-- [ ] Customize text style (font family, text color) 中文，衬线，非衬线，等宽
-- [x] Customize canvas (width, padding, color, backgroundColor)
-- [x] Confetti when download success
-- [x] Responsive layout
 - [ ] Customize canvas background and filter (blur and so on)
 - [ ] Add theme templates
 - [ ] I18n
 - [ ] Save current work
 - [ ] Public share form
 - [ ] Dark mode
-- [x] Navbar with logo
-- [x] Footer with love
 - [ ] Content scroll
 - [ ] Blur navbar
 - [ ] ESlint config
@@ -24,3 +16,6 @@
 - [ ] Editorconfig
 - [ ] font-family load from google font api
 - [ ] load bg from [color4bg](https://www.color4bg.com/)
+- [ ] font selector display styled font
+- [ ] switch template effect: float up and expand other templates
+- [ ] lighthouse optimization
