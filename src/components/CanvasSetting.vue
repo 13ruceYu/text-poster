@@ -7,6 +7,7 @@ import { Icon } from '@iconify/vue'
 import { ICanvasProps } from '@/types'
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select'
 import { fontFamilyOptions } from '@/types'
+import { bgImageList } from '@/assets/bg-image'
 
 const colorList = [
   '#3c7e44', // Original color
@@ -72,6 +73,16 @@ const props = defineProps<{
                 </SelectItem>
               </SelectContent>
             </Select>
+          </div>
+          <div class="grid grid-cols-3 items-center gap-4">
+            <Label>Background Image</Label>
+            <div class="col-span-2 grid grid-cols-3 gap-4">
+              <div class="bg-item" v-for="bgImage in bgImageList" :key="bgImage.name">
+                <div class="bg-thumbnail h-20 bg-cover border border-gray-200 rounded-lg cursor-pointer"
+                  :style="{ backgroundImage: `url(${bgImage.url})` }"
+                  @click="props.canvasProps.backgroundImage = bgImage.url"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

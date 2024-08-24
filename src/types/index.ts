@@ -9,6 +9,7 @@ export interface ICanvasProps {
   color: string;
   backgroundColor: string;
   fontFamily: FontFamily;
+  backgroundImage?: string;
 }
 
 interface IContentBlockStyle {

@@ -19,3 +19,4 @@
 - [ ] font selector display styled font
 - [ ] switch template effect: float up and expand other templates
 - [ ] lighthouse optimization
+- [ ] redesign the whole page

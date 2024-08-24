@@ -9,6 +9,7 @@ import CanvasSetting from './CanvasSetting.vue'
 import BlockSetting from './BlockSetting.vue'
 import { ICanvasProps, IContentBlock } from '@/types'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import GreenDot from '@/assets/bg-image/green-dot.png'
 
 const canvas = ref<HTMLCanvasElement | null>(null)
 
@@ -18,7 +19,8 @@ const defaultCanvasProps: ICanvasProps = {
   padding: '16px',
   color: '#3c7e44',
   backgroundColor: '#e5e7eb',
-  fontFamily: 'mingchao'
+  fontFamily: 'mingchao',
+  backgroundImage: GreenDot
 }
 
 const canvasProps2: ICanvasProps = {
@@ -112,7 +114,6 @@ const mockContentBlocks2: IContentBlock[] = [
 
 
 const contentBlocks = reactive<IContentBlock[]>(mockContentBlocks)
-
 
 const templateList = reactive<Template[]>([
   {
@@ -231,7 +232,8 @@ function applyTemplate(template: Template) {
           padding: canvasProps.padding,
           color: canvasProps.color,
           backgroundColor: canvasProps.backgroundColor,
-          fontFamily: canvasProps.fontFamily
+          fontFamily: canvasProps.fontFamily,
+          backgroundImage: `url(${canvasProps.backgroundImage})`
         }" class="canvas">
           <div v-for="(block, index) in contentBlocks" :key="index" :style="{
             fontSize: block.style.fontSize,
