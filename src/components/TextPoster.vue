@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import html2canvas from 'html2canvas'
-import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
 import { Icon } from '@iconify/vue'
-import { Card } from '@/components/ui/card'
 import CanvasSetting from './CanvasSetting.vue'
 import BlockSetting from './BlockSetting.vue'
-import { ICanvasProps, IContentBlock } from '@/types'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import { Card } from '@/components/ui/card'
+import type { ICanvasProps, IContentBlock } from '@/types'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import GreenDot from '@/assets/bg-image/green-dot.png'
 
@@ -20,7 +20,7 @@ const defaultCanvasProps: ICanvasProps = {
   color: '#3c7e44',
   backgroundColor: '#e5e7eb',
   fontFamily: 'mingchao',
-  backgroundImage: GreenDot
+  backgroundImage: GreenDot,
 }
 
 const canvasProps2: ICanvasProps = {
@@ -29,7 +29,7 @@ const canvasProps2: ICanvasProps = {
   padding: '16px',
   color: '#7e3c44',
   backgroundColor: '#e5e7eb',
-  fontFamily: 'arial'
+  fontFamily: 'arial',
 }
 
 const canvasProps = reactive<ICanvasProps>(defaultCanvasProps)
@@ -49,10 +49,10 @@ const mockContentBlocks: IContentBlock[] = [
 就算有人在乎，
 人又算什么东西。`,
     style: {
-      color: "",
-      fontSize: "32px",
-      textAlign: "left"
-    }
+      color: '',
+      fontSize: '32px',
+      textAlign: 'left',
+    },
   },
   {
     name: 'text',
@@ -61,8 +61,8 @@ const mockContentBlocks: IContentBlock[] = [
       color: '',
       fontSize: '16px',
       textAlign: 'left',
-      marginTop: '16px'
-    }
+      marginTop: '16px',
+    },
   },
   {
     name: 'text',
@@ -71,9 +71,9 @@ const mockContentBlocks: IContentBlock[] = [
       color: '',
       fontSize: '16px',
       textAlign: 'left',
-      marginTop: '64px'
-    }
-  }
+      marginTop: '64px',
+    },
+  },
 ]
 
 const mockContentBlocks2: IContentBlock[] = [
@@ -81,10 +81,10 @@ const mockContentBlocks2: IContentBlock[] = [
     name: 'text',
     content: `先做个垃圾出来`,
     style: {
-      color: "",
-      fontSize: "32px",
-      textAlign: "left"
-    }
+      color: '',
+      fontSize: '32px',
+      textAlign: 'left',
+    },
   },
   {
     name: 'text',
@@ -95,8 +95,8 @@ const mockContentBlocks2: IContentBlock[] = [
       color: '',
       fontSize: '16px',
       textAlign: 'left',
-      marginTop: '16px'
-    }
+      marginTop: '16px',
+    },
   },
   {
     name: 'text',
@@ -107,11 +107,10 @@ const mockContentBlocks2: IContentBlock[] = [
       color: '',
       fontSize: '16px',
       textAlign: 'left',
-      marginTop: '64px'
-    }
-  }
+      marginTop: '64px',
+    },
+  },
 ]
-
 
 const contentBlocks = reactive<IContentBlock[]>(mockContentBlocks)
 
@@ -119,47 +118,47 @@ const templateList = reactive<Template[]>([
   {
     name: 'default',
     content: contentBlocks,
-    canvasProps: canvasProps,
-    thumbnail: 'https://dummyimage.com/200x300'
+    canvasProps,
+    thumbnail: 'https://dummyimage.com/200x300',
   },
   {
     name: 'default-2',
     content: mockContentBlocks2,
     canvasProps: canvasProps2,
-    thumbnail: 'https://dummyimage.com/300x300'
+    thumbnail: 'https://dummyimage.com/300x300',
   },
   {
     name: 'default-3',
     content: contentBlocks,
     canvasProps: canvasProps2,
-    thumbnail: 'https://dummyimage.com/400x300'
+    thumbnail: 'https://dummyimage.com/400x300',
   },
   {
     name: 'default-4',
     content: contentBlocks,
     canvasProps: canvasProps2,
-    thumbnail: 'https://dummyimage.com/300x500'
+    thumbnail: 'https://dummyimage.com/300x500',
   },
   {
     name: 'default-5',
     content: contentBlocks,
     canvasProps: canvasProps2,
-    thumbnail: 'https://dummyimage.com/400x300'
+    thumbnail: 'https://dummyimage.com/400x300',
   },
   {
     name: 'default-6',
     content: contentBlocks,
     canvasProps: canvasProps2,
-    thumbnail: 'https://dummyimage.com/400x400'
+    thumbnail: 'https://dummyimage.com/400x400',
   },
 ])
 
 const isTemplatePopoverOpen = ref(false)
 
 // use html2canvas to generate a screenshot
-const generateScreenshot = () => {
+function generateScreenshot() {
   if (canvas.value) {
-    html2canvas(canvas.value).then(canvas => {
+    html2canvas(canvas.value).then((canvas) => {
       // Convert canvas to data URL
       const dataURL = canvas.toDataURL('image/png')
 
@@ -172,11 +171,11 @@ const generateScreenshot = () => {
   }
 }
 
-const deleteBlock = (index: number) => {
+function deleteBlock(index: number) {
   contentBlocks.splice(index, 1)
 }
 
-const addBlock = () => {
+function addBlock() {
   contentBlocks.push({
     name: 'text',
     content: '',
@@ -184,8 +183,8 @@ const addBlock = () => {
       color: '',
       fontFamily: '',
       fontSize: '16px',
-      textAlign: 'left'
-    }
+      textAlign: 'left',
+    },
   })
 }
 
@@ -204,13 +203,15 @@ function applyTemplate(template: Template) {
 
 <template>
   <div class="logo fixed top-0 left-0 flex items-center justify-center text-theme">
-    <img src="@/assets/logo.svg" alt="logo" />
-    <div class="text-2xl font-bold ml-2">Text Poster</div>
+    <img src="@/assets/logo.svg" alt="logo">
+    <div class="text-2xl font-bold ml-2">
+      Text Poster
+    </div>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-screen-lg mx-auto">
     <div class="flex flex-col justify-center p-4 order-2 md:order-1">
-      <div class="mb-4" v-for="(block, index) in contentBlocks" :key="index">
-        <Textarea v-model="block.content"></Textarea>
+      <div v-for="(block, index) in contentBlocks" :key="index" class="mb-4">
+        <Textarea v-model="block.content" />
         <div class="mt-2">
           <Button variant="outline" size="xs" class="mr-2" @click="deleteBlock(index)">
             <Icon icon="carbon:trash-can" />
@@ -226,21 +227,27 @@ function applyTemplate(template: Template) {
     </div>
     <div class="flex flex-col justify-center items-center md:min-h-screen md:pt-0 pt-10 order-1 md:order-2">
       <Card class="p-2">
-        <div ref="canvas" :style="{
-          width: canvasProps.width,
-          height: canvasProps.height || 'auto',
-          padding: canvasProps.padding,
-          color: canvasProps.color,
-          backgroundColor: canvasProps.backgroundColor,
-          fontFamily: canvasProps.fontFamily,
-          backgroundImage: `url(${canvasProps.backgroundImage})`
-        }" class="canvas">
-          <div v-for="(block, index) in contentBlocks" :key="index" :style="{
-            fontSize: block.style.fontSize,
-            textAlign: block.style.textAlign,
-            marginTop: block.style.marginTop || 0
-          }">
-            <p v-for="(line, index) in block.content.split('\n')" :key="index">{{ line }}</p>
+        <div
+          ref="canvas" :style="{
+            width: canvasProps.width,
+            height: canvasProps.height || 'auto',
+            padding: canvasProps.padding,
+            color: canvasProps.color,
+            backgroundColor: canvasProps.backgroundColor,
+            fontFamily: canvasProps.fontFamily,
+            backgroundImage: `url(${canvasProps.backgroundImage})`,
+          }" class="canvas"
+        >
+          <div
+            v-for="(block, index) in contentBlocks" :key="index" :style="{
+              fontSize: block.style.fontSize,
+              textAlign: block.style.textAlign,
+              marginTop: block.style.marginTop || 0,
+            }"
+          >
+            <p v-for="(line, idx) in block.content.split('\n')" :key="idx">
+              {{ line }}
+            </p>
           </div>
         </div>
       </Card>
@@ -258,10 +265,14 @@ function applyTemplate(template: Template) {
           <PopoverContent class="w-96">
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               <div v-for="template in templateList" :key="template.name" class="template-item">
-                <img :src="template.thumbnail" :alt="template.name"
+                <img
+                  :src="template.thumbnail" :alt="template.name"
                   class="w-full h-auto rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
-                  @click="applyTemplate(template)" />
-                <p class="mt-2 text-sm text-center">{{ template.name }}</p>
+                  @click="applyTemplate(template)"
+                >
+                <p class="mt-2 text-sm text-center">
+                  {{ template.name }}
+                </p>
               </div>
             </div>
           </PopoverContent>

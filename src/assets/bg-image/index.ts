@@ -5,14 +5,14 @@ import BlueDot from './blue-dot.png'
 export const bgImageList = [
   {
     name: 'Green Dot',
-    url: GreenDot
+    url: GreenDot,
   },
   {
     name: 'Red Dot',
-    url: RedDot
+    url: RedDot,
   },
   {
     name: 'Blue Dot',
-    url: BlueDot
-  }
+    url: BlueDot,
+  },
 ]

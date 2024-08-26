@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
+import { Icon } from '@iconify/vue'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import { Icon } from '@iconify/vue'
-import { ICanvasProps } from '@/types'
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select'
+import type { ICanvasProps } from '@/types'
 import { fontFamilyOptions } from '@/types'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { bgImageList } from '@/assets/bg-image'
+
+const props = defineProps<{
+  canvasProps: ICanvasProps
+}>()
 
 const colorList = [
   '#3c7e44', // Original color
@@ -18,13 +22,10 @@ const colorList = [
   '#3c7e7e', // Cyan-ish
   '#7e3c7e', // Magenta-ish
 ]
-
-const props = defineProps<{
-  canvasProps: ICanvasProps
-}>()
 </script>
 
 <template>
+  <!-- eslint-disable vue/no-mutating-props -->
   <Popover>
     <PopoverTrigger>
       <Button variant="outline">
@@ -36,29 +37,33 @@ const props = defineProps<{
         <div class="space-y-2">
           <div class="grid grid-cols-3 items-center gap-4">
             <Label>Width</Label>
-            <Input class="col-span-2 h-8" v-model="props.canvasProps.width" />
+            <Input v-model="props.canvasProps.width" class="col-span-2 h-8" />
           </div>
           <div class="grid grid-cols-3 items-center gap-4">
             <Label>Height</Label>
-            <Input class="col-span-2 h-8" v-model="props.canvasProps.height" />
+            <Input v-model="props.canvasProps.height" class="col-span-2 h-8" />
           </div>
           <div class="grid grid-cols-3 items-center gap-4">
             <Label>Padding</Label>
-            <Input class="col-span-2 h-8" v-model="props.canvasProps.padding" />
+            <Input v-model="props.canvasProps.padding" class="col-span-2 h-8" />
           </div>
           <div class="grid grid-cols-3 items-center gap-4">
             <Label>Color</Label>
-            <Input class="col-span-2 h-8" type="color" v-model="props.canvasProps.color" />
+            <Input v-model="props.canvasProps.color" class="col-span-2 h-8" type="color" />
           </div>
           <div class="grid grid-cols-3 items-center gap-4">
             <Label>Background Color</Label>
-            <Input class="col-span-2 h-8" type="color" v-model="props.canvasProps.backgroundColor" />
+            <Input v-model="props.canvasProps.backgroundColor" class="col-span-2 h-8" type="color" />
           </div>
           <div class="grid grid-cols-3 items-center gap-4">
-            <Label></Label>
+            <Label />
             <div class="color-list col-span-2 h-8 flex items-center">
-              <div class="color-item inline-block w-4 h-4 mr-2 rounded-full cursor-pointer" v-for="color in colorList"
-                :key="color" :style="{ backgroundColor: color }" @click="props.canvasProps.color = color"></div>
+              <div
+                v-for="color in colorList" :key="color"
+                class="color-item inline-block w-4 h-4 mr-2 rounded-full cursor-pointer"
+                :style="{ backgroundColor: color }"
+                @click="props.canvasProps.color = color"
+              />
             </div>
           </div>
           <div class="grid grid-cols-3 items-center gap-4">
@@ -68,8 +73,8 @@ const props = defineProps<{
                 <SelectValue :value="props.canvasProps.fontFamily" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem v-for="fontFamily in fontFamilyOptions" :key="fontFamily" :value="fontFamily">{{ fontFamily
-                  }}
+                <SelectItem v-for="fontFamily in fontFamilyOptions" :key="fontFamily" :value="fontFamily">
+                  {{ fontFamily }}
                 </SelectItem>
               </SelectContent>
             </Select>
@@ -77,10 +82,12 @@ const props = defineProps<{
           <div class="grid grid-cols-3 items-center gap-4">
             <Label>Background Image</Label>
             <div class="col-span-2 grid grid-cols-3 gap-4">
-              <div class="bg-item" v-for="bgImage in bgImageList" :key="bgImage.name">
-                <div class="bg-thumbnail h-20 bg-cover border border-gray-200 rounded-lg cursor-pointer"
+              <div v-for="bgImage in bgImageList" :key="bgImage.name" class="bg-item">
+                <div
+                  class="bg-thumbnail h-20 bg-cover border border-gray-200 rounded-lg cursor-pointer"
                   :style="{ backgroundImage: `url(${bgImage.url})` }"
-                  @click="props.canvasProps.backgroundImage = bgImage.url"></div>
+                  @click="props.canvasProps.backgroundImage = bgImage.url"
+                />
               </div>
             </div>
           </div>

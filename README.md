@@ -8,12 +8,7 @@
 - [ ] Dark mode
 - [ ] Content scroll
 - [ ] Blur navbar
-- [ ] ESlint config
-- [ ] Prettier config
-- [ ] Commitlint config
-- [ ] Husky config
-- [ ] Lint-staged config
-- [ ] Editorconfig
+- [x] ESlint config
 - [ ] font-family load from google font api
 - [ ] load bg from [color4bg](https://www.color4bg.com/)
 - [ ] font selector display styled font

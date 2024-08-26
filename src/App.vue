@@ -3,5 +3,5 @@ import TextPoster from '@/components/TextPoster.vue'
 </script>
 
 <template>
-  <TextPoster></TextPoster>
+  <TextPoster />
 </template>
