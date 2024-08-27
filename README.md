@@ -7,7 +7,7 @@
 - [ ] Public share form
 - [ ] Dark mode
 - [ ] Content scroll
-- [ ] Blur navbar
+- [x] Navbar
 - [x] ESlint config
 - [ ] font-family load from google font api
 - [ ] load bg from [color4bg](https://www.color4bg.com/)
@@ -15,3 +15,5 @@
 - [ ] switch template effect: float up and expand other templates
 - [ ] lighthouse optimization
 - [ ] redesign the whole page
+- [ ] grid mode
+- [ ] fabric.js test

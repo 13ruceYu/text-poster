@@ -85,8 +85,9 @@ const colorList = [
               <div v-for="bgImage in bgImageList" :key="bgImage.name" class="bg-item">
                 <div
                   class="bg-thumbnail h-20 bg-cover border border-gray-200 rounded-lg cursor-pointer"
+                  :class="[props.canvasProps.backgroundImage === bgImage.url ? ' border-blue-500' : '']"
                   :style="{ backgroundImage: `url(${bgImage.url})` }"
-                  @click="props.canvasProps.backgroundImage = bgImage.url"
+                  @click="props.canvasProps.backgroundImage === bgImage.url ? props.canvasProps.backgroundImage = '' : props.canvasProps.backgroundImage = bgImage.url"
                 />
               </div>
             </div>

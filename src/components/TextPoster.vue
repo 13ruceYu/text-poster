@@ -9,30 +9,10 @@ import { Textarea } from '@/components/ui/textarea'
 import { Card } from '@/components/ui/card'
 import type { ICanvasProps, IContentBlock } from '@/types'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import GreenDot from '@/assets/bg-image/green-dot.png'
+import { templateList } from '@/components/mockTemplateData'
 
 const canvas = ref<HTMLCanvasElement | null>(null)
-
-const defaultCanvasProps: ICanvasProps = {
-  width: '360px',
-  height: '',
-  padding: '16px',
-  color: '#3c7e44',
-  backgroundColor: '#e5e7eb',
-  fontFamily: 'mingchao',
-  backgroundImage: GreenDot,
-}
-
-const canvasProps2: ICanvasProps = {
-  width: '360px',
-  height: '',
-  padding: '16px',
-  color: '#7e3c44',
-  backgroundColor: '#e5e7eb',
-  fontFamily: 'arial',
-}
-
-const canvasProps = reactive<ICanvasProps>(defaultCanvasProps)
+const canvasKey = ref(0)
 
 interface Template {
   name: string
@@ -40,118 +20,9 @@ interface Template {
   canvasProps: ICanvasProps
   thumbnail: string
 }
+const canvasProps = reactive<ICanvasProps>({ ...templateList[0].canvasProps })
 
-const mockContentBlocks: IContentBlock[] = [
-  {
-    name: 'text',
-    content: `大胆去做，不要怕，
-没有人在乎，
-就算有人在乎，
-人又算什么东西。`,
-    style: {
-      color: '',
-      fontSize: '32px',
-      textAlign: 'left',
-    },
-  },
-  {
-    name: 'text',
-    content: 'Be bold and don\'t be afraid. No one cares, even if someone cares, people are nothing.',
-    style: {
-      color: '',
-      fontSize: '16px',
-      textAlign: 'left',
-      marginTop: '16px',
-    },
-  },
-  {
-    name: 'text',
-    content: '/威廉·萨默塞特·毛姆',
-    style: {
-      color: '',
-      fontSize: '16px',
-      textAlign: 'left',
-      marginTop: '64px',
-    },
-  },
-]
-
-const mockContentBlocks2: IContentBlock[] = [
-  {
-    name: 'text',
-    content: `先做个垃圾出来`,
-    style: {
-      color: '',
-      fontSize: '32px',
-      textAlign: 'left',
-    },
-  },
-  {
-    name: 'text',
-    content: `不制作垃圾
-你就只有
-焦虑拖延的机会`,
-    style: {
-      color: '',
-      fontSize: '16px',
-      textAlign: 'left',
-      marginTop: '16px',
-    },
-  },
-  {
-    name: 'text',
-    content: `有垃圾
-就有
-变废为宝的机会`,
-    style: {
-      color: '',
-      fontSize: '16px',
-      textAlign: 'left',
-      marginTop: '64px',
-    },
-  },
-]
-
-const contentBlocks = reactive<IContentBlock[]>(mockContentBlocks)
-
-const templateList = reactive<Template[]>([
-  {
-    name: 'default',
-    content: contentBlocks,
-    canvasProps,
-    thumbnail: 'https://dummyimage.com/200x300',
-  },
-  {
-    name: 'default-2',
-    content: mockContentBlocks2,
-    canvasProps: canvasProps2,
-    thumbnail: 'https://dummyimage.com/300x300',
-  },
-  {
-    name: 'default-3',
-    content: contentBlocks,
-    canvasProps: canvasProps2,
-    thumbnail: 'https://dummyimage.com/400x300',
-  },
-  {
-    name: 'default-4',
-    content: contentBlocks,
-    canvasProps: canvasProps2,
-    thumbnail: 'https://dummyimage.com/300x500',
-  },
-  {
-    name: 'default-5',
-    content: contentBlocks,
-    canvasProps: canvasProps2,
-    thumbnail: 'https://dummyimage.com/400x300',
-  },
-  {
-    name: 'default-6',
-    content: contentBlocks,
-    canvasProps: canvasProps2,
-    thumbnail: 'https://dummyimage.com/400x400',
-  },
-])
+const contentBlocks = reactive<IContentBlock[]>([...templateList[0].content])
 
 const isTemplatePopoverOpen = ref(false)
 
@@ -190,6 +61,7 @@ function addBlock() {
 
 function applyTemplate(template: Template) {
   isTemplatePopoverOpen.value = false
+  canvasKey.value += 1
 
   contentBlocks.splice(0, contentBlocks.length, ...template.content)
   canvasProps.width = template.canvasProps.width
@@ -198,16 +70,22 @@ function applyTemplate(template: Template) {
   canvasProps.color = template.canvasProps.color
   canvasProps.backgroundColor = template.canvasProps.backgroundColor
   canvasProps.fontFamily = template.canvasProps.fontFamily
+  canvasProps.backgroundImage = template.canvasProps.backgroundImage
 }
 </script>
 
 <template>
-  <div class="logo fixed top-0 left-0 flex items-center justify-center text-theme">
-    <img src="@/assets/logo.svg" alt="logo">
-    <div class="text-2xl font-bold ml-2">
-      Text Poster
+  <nav class="max-w-screen-lg mx-auto border border-border px-2 shadow-sm h-12 flex items-center justify-between rounded-sm mt-2">
+    <div class="logo flex items-center justify-center text-theme">
+      <img src="@/assets/logo.svg" alt="logo">
+      <div class="text-2xl font-bold ml-2">
+        Text Poster
+      </div>
     </div>
-  </div>
+    <div>
+      <Icon class="size-7 p-1 rounded-sm cursor-pointer hover:bg-slate-100" icon="carbon:light" />
+    </div>
+  </nav>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-screen-lg mx-auto">
     <div class="flex flex-col justify-center p-4 order-2 md:order-1">
       <div v-for="(block, index) in contentBlocks" :key="index" class="mb-4">
@@ -228,7 +106,7 @@ function applyTemplate(template: Template) {
     <div class="flex flex-col justify-center items-center md:min-h-screen md:pt-0 pt-10 order-1 md:order-2">
       <Card class="p-2">
         <div
-          ref="canvas" :style="{
+          ref="canvas" :key="canvasKey" :style="{
             width: canvasProps.width,
             height: canvasProps.height || 'auto',
             padding: canvasProps.padding,
@@ -251,6 +129,7 @@ function applyTemplate(template: Template) {
           </div>
         </div>
       </Card>
+      <div>{{ }}</div>
       <div class="mt-4 flex items-center justify-center gap-2">
         <CanvasSetting :canvas-props="canvasProps" />
         <!-- <Button variant="outline">
