@@ -5,7 +5,7 @@
 - [ ] I18n
 - [ ] Save current work
 - [ ] Public share form
-- [ ] Dark mode
+- [x] Dark mode
 - [ ] Content scroll
 - [x] Navbar
 - [x] ESlint config
