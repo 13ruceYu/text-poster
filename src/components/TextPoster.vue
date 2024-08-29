@@ -4,6 +4,7 @@ import html2canvas from 'html2canvas'
 import { Icon } from '@iconify/vue'
 import CanvasSetting from './CanvasSetting.vue'
 import BlockSetting from './BlockSetting.vue'
+import Navbar from './Navbar.vue'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Card } from '@/components/ui/card'
@@ -75,21 +76,11 @@ function applyTemplate(template: Template) {
 </script>
 
 <template>
-  <nav class="max-w-screen-lg mx-auto border border-border px-2 shadow-sm h-12 flex items-center justify-between rounded-sm mt-2">
-    <div class="logo flex items-center justify-center text-theme">
-      <img src="@/assets/logo.svg" alt="logo">
-      <div class="text-2xl font-bold ml-2">
-        Text Poster
-      </div>
-    </div>
-    <div>
-      <Icon class="size-7 p-1 rounded-sm cursor-pointer hover:bg-slate-100" icon="carbon:light" />
-    </div>
-  </nav>
+  <Navbar />
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-screen-lg mx-auto">
     <div class="flex flex-col justify-center p-4 order-2 md:order-1">
       <div v-for="(block, index) in contentBlocks" :key="index" class="mb-4">
-        <Textarea v-model="block.content" />
+        <Textarea v-model="block.content" class="resize-none" />
         <div class="mt-2">
           <Button variant="outline" size="xs" class="mr-2" @click="deleteBlock(index)">
             <Icon icon="carbon:trash-can" />
