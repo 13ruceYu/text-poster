@@ -77,7 +77,7 @@ function applyTemplate(template: Template) {
 
 <template>
   <div class="h-screen flex flex-col">
-    <Navbar class="w-full py-2" />
+    <Navbar class="w-full" />
     <div class="flex-grow grid grid-cols-1 md:grid-cols-2 gap-4 max-w-screen-lg mx-auto">
       <div class="flex flex-col justify-center p-4 order-2 md:order-1">
         <div v-for="(block, index) in contentBlocks" :key="index" class="mb-4">
