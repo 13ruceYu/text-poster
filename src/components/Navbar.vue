@@ -3,7 +3,7 @@ import ToggleColorMode from './ToggleColorMode.vue'
 </script>
 
 <template>
-  <nav class="border px-2 max-w-screen-md mx-auto shadow-sm flex items-center justify-between">
+  <nav class="border p-2 rounded-sm max-w-screen-md mx-auto shadow-sm flex items-center justify-between">
     <div class="logo flex items-center justify-center text-theme">
       <img src="@/assets/logo.svg" alt="logo">
       <div class="text-2xl font-bold ml-2">
