@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { Component } from 'vue'
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
+import { onClickOutside, useThrottleFn } from '@vueuse/core'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
@@ -43,15 +44,20 @@ const activeElementData = computed(() => {
 })
 const isDragging = ref(false)
 
-function handleClick(e: Event, elId: string) {
-  activeElement.value = e.target as HTMLElement
-  activeElementId.value = elId
-}
+onClickOutside(activeElement, () => activeElementId.value = null)
+
+watch(activeElementId, (newVal) => {
+  if (!newVal) {
+    activeElement.value = null
+  }
+})
 
 const mouseToTargetOffset = reactive({ x: 0, y: 0 })
 const frameClientCoordinate = reactive({ x: 0, y: 0 })
 
-function handleMouseDown(mouse: MouseEvent) {
+function handleMouseDown(mouse: MouseEvent, elId: string) {
+  activeElement.value = mouse.currentTarget as HTMLElement
+  activeElementId.value = elId
   const curEl = activeElement.value
   if (!curEl)
     return
@@ -75,6 +81,8 @@ function handleMouseMove(e: MouseEvent) {
   curEl.style.left = `${e.clientX - mouseToTargetOffset.x - frameClientCoordinate.x}px`
   curEl.style.top = `${e.clientY - mouseToTargetOffset.y - frameClientCoordinate.y}px`
 }
+
+const throttledMouseMove = useThrottleFn(handleMouseMove, 20)
 </script>
 
 <template>
@@ -115,18 +123,21 @@ function handleMouseMove(e: MouseEvent) {
       <div class="canvas bg-slate-200 flex-grow flex justify-center items-center overflow-hidden">
         <div
           class="frame bg-white w-[360px] h-[560px] border shadow-sm relative"
-          @mousedown="handleMouseDown($event)"
-          @mousemove="handleMouseMove($event)"
+          @mousemove="throttledMouseMove($event)"
         >
-          <component
-            :is="elComponents[item.type]"
+          <div
             v-for="item in mockData"
-            :key="item.id" :attrs="item"
+            :key="item.id"
             class="hover:outline outline-blue-300 cursor-pointer"
             :class="[activeElementId === item.id ? 'outline outline-blue-500' : '']"
             style="position: absolute; left: 5px; top: 5px;"
-            @mousedown="handleClick($event, item.id)"
-          />
+            @mousedown="handleMouseDown($event, item.id)"
+          >
+            <component
+              :is="elComponents[item.type]"
+              :attrs="item"
+            />
+          </div>
         </div>
       </div>
       <div class="props p-4 w-72 border-l border-slate-300">
@@ -184,11 +195,3 @@ function handleMouseMove(e: MouseEvent) {
     </main>
   </div>
 </template>
-
-<style scoped>
-.children-border {
-  & > * {
-    border: 2px solid green;
-  }
-}
-</style>

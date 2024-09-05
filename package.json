@@ -15,6 +15,7 @@
     "clsx": "^2.1.1",
     "html2canvas": "^1.4.1",
     "lucide-vue-next": "^0.427.0",
+    "moveable": "^0.53.0",
     "radix-vue": "^1.9.4",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
