@@ -23,9 +23,6 @@ importers:
       lucide-vue-next:
         specifier: ^0.427.0
         version: 0.427.0(vue@3.4.38(typescript@5.5.4))
-      moveable:
-        specifier: ^0.53.0
-        version: 0.53.0
       radix-vue:
         specifier: ^1.9.4
         version: 1.9.4(vue@3.4.38(typescript@5.5.4))
@@ -41,6 +38,9 @@ importers:
       vue-router:
         specifier: ^4.4.3
         version: 4.4.3(vue@3.4.38(typescript@5.5.4))
+      vue3-moveable:
+        specifier: 0.28.0
+        version: 0.28.0
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^2.27.1
@@ -2567,6 +2567,9 @@ packages:
     hasBin: true
     peerDependencies:
       typescript: '>=5.0.0'
+
+  vue3-moveable@0.28.0:
+    resolution: {integrity: sha512-vplQO0XkxVEtXMDh2/lZE+c5kMycGXAfYFMvbwFKi8UVYzVk8MTgVHr4fxO9Z+4i4Rb+U/IEIgkhHRMAbx8FJg==}
 
   vue@3.4.38:
     resolution: {integrity: sha512-f0ZgN+mZ5KFgVv9wz0f4OgVKukoXtS3nwET4c2vLBGQR50aI8G0cqbFtLlX9Yiyg3LFGBitruPHt2PxwTduJEw==}
@@ -5276,6 +5279,11 @@ snapshots:
       '@vue/language-core': 2.0.29(typescript@5.5.4)
       semver: 7.6.3
       typescript: 5.5.4
+
+  vue3-moveable@0.28.0:
+    dependencies:
+      framework-utils: 1.1.0
+      moveable: 0.53.0
 
   vue@3.4.38(typescript@5.5.4):
     dependencies:

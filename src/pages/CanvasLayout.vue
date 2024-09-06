@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import type { Component } from 'vue'
 import { computed, reactive, ref, watch } from 'vue'
-import { onClickOutside, useThrottleFn } from '@vueuse/core'
+import type { OnDrag, OnResize, OnRotate } from 'vue3-moveable'
+import Moveable from 'vue3-moveable'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
@@ -17,13 +18,10 @@ const elComponents: Record<string, Component> = {
 
 const mockData = reactive([
   {
-    id: 'el-wedgd',
+    id: 'el-wedgg',
     type: 'text',
-    text: `大胆去做，不要怕，
-没有人在乎，
-就算有人在乎，
-人又算什么东西。`,
-    size: { width: 380, height: 'auto' },
+    text: `Be bold.`,
+    size: { width: 150, height: 'auto' },
     position: { x: 0, y: 0 },
     border: { value: 0, color: 'black', left: 0, right: 0, top: 0, bottom: 0 },
     padding: { value: 0, left: 0, right: 0, top: 0, bottom: 0 },
@@ -33,18 +31,52 @@ const mockData = reactive([
     fontSize: { value: 32 },
     lineHeight: { value: 1.2 },
     spacing: { value: 4 },
-    align: { value: 'left' },
+    align: 'left',
+  },
+  {
+    id: 'el-wedgd',
+    type: 'text',
+    text: `大胆去做，不要怕，
+没有人在乎，
+就算有人在乎，
+人又算什么东西。`,
+    size: { width: 200, height: 'auto' },
+    position: { x: 0, y: 0 },
+    border: { value: 0, color: 'black', left: 0, right: 0, top: 0, bottom: 0 },
+    padding: { value: 0, left: 0, right: 0, top: 0, bottom: 0 },
+    color: '#2FA4E8',
+    fill: '',
+    fontFamily: { value: 'mingchao' },
+    fontSize: { value: 32 },
+    lineHeight: { value: 1.2 },
+    spacing: { value: 4 },
+    align: 'right',
+  },
+
+  {
+    id: 'el-wedgge',
+    type: 'text',
+    text: `/萨特`,
+    size: { width: 150, height: 'auto' },
+    position: { x: 0, y: 0 },
+    border: { value: 0, color: 'black', left: 0, right: 0, top: 0, bottom: 0 },
+    padding: { value: 0, left: 0, right: 0, top: 0, bottom: 0 },
+    color: '#2FA4E8',
+    fill: '',
+    fontFamily: { value: 'mingchao' },
+    fontSize: { value: 32 },
+    lineHeight: { value: 1.2 },
+    spacing: { value: 4 },
+    align: 'left',
   },
 ])
-
+const moveableElClassArr = mockData.map(item => `.el-${item.id}`)
 const activeElement = ref<HTMLElement | null>(null)
 const activeElementId = ref<string | null>(null)
 const activeElementData = computed(() => {
   return mockData.find(item => item.id === activeElementId.value)
 })
-const isDragging = ref(false)
-
-onClickOutside(activeElement, () => activeElementId.value = null)
+const moveableRef = ref(null)
 
 watch(activeElementId, (newVal) => {
   if (!newVal) {
@@ -52,37 +84,28 @@ watch(activeElementId, (newVal) => {
   }
 })
 
-const mouseToTargetOffset = reactive({ x: 0, y: 0 })
-const frameClientCoordinate = reactive({ x: 0, y: 0 })
-
 function handleMouseDown(mouse: MouseEvent, elId: string) {
   activeElement.value = mouse.currentTarget as HTMLElement
   activeElementId.value = elId
-  const curEl = activeElement.value
-  if (!curEl)
+}
+
+function onDrag(e: OnDrag) {
+  if (!activeElement.value)
     return
-  isDragging.value = true
-  mouseToTargetOffset.x = mouse.clientX - curEl.getBoundingClientRect().x
-  mouseToTargetOffset.y = mouse.clientY - curEl.getBoundingClientRect().y
-  frameClientCoordinate.x = curEl.getBoundingClientRect().x - curEl.offsetLeft
-  frameClientCoordinate.y = curEl.getBoundingClientRect().y - curEl.offsetTop
-  document.addEventListener('mouseup', handleMouseUp)
+  activeElement.value.style.transform = e.transform
 }
-
-function handleMouseUp() {
-  isDragging.value = false
-  document.removeEventListener('mouseup', handleMouseUp)
-}
-
-function handleMouseMove(e: MouseEvent) {
-  const curEl = activeElement.value
-  if (!curEl || !isDragging.value)
+function onResize(e: OnResize) {
+  if (!activeElement.value)
     return
-  curEl.style.left = `${e.clientX - mouseToTargetOffset.x - frameClientCoordinate.x}px`
-  curEl.style.top = `${e.clientY - mouseToTargetOffset.y - frameClientCoordinate.y}px`
-}
 
-const throttledMouseMove = useThrottleFn(handleMouseMove, 20)
+  activeElement.value.style.width = `${e.width}px`
+  activeElement.value.style.height = `${e.height}px`
+}
+function onRotate(e: OnRotate) {
+  if (!activeElement.value)
+    return
+  activeElement.value.style.transform = e.transform
+}
 </script>
 
 <template>
@@ -123,21 +146,31 @@ const throttledMouseMove = useThrottleFn(handleMouseMove, 20)
       <div class="canvas bg-slate-200 flex-grow flex justify-center items-center overflow-hidden">
         <div
           class="frame bg-white w-[360px] h-[560px] border shadow-sm relative"
-          @mousemove="throttledMouseMove($event)"
         >
-          <div
+          <component
+            :is="elComponents[item.type]"
             v-for="item in mockData"
             :key="item.id"
-            class="hover:outline outline-blue-300 cursor-pointer"
-            :class="[activeElementId === item.id ? 'outline outline-blue-500' : '']"
-            style="position: absolute; left: 5px; top: 5px;"
+            :class="[`el-${item.id}`]"
+            :attrs="item"
             @mousedown="handleMouseDown($event, item.id)"
-          >
-            <component
-              :is="elComponents[item.type]"
-              :attrs="item"
-            />
-          </div>
+          />
+          <Moveable
+            ref="moveableRef"
+            :target="activeElement"
+            :draggable="true"
+            :resizable="true"
+            :rotatable="true"
+            :snappable="true"
+            :element-guidelines="moveableElClassArr"
+            :snap-directions="({ top: true, left: true, bottom: true, right: true, center: true, middle: true })"
+            :element-snap-directions="({ top: true, left: true, bottom: true, right: true, center: true, middle: true })"
+            :max-snap-element-guideline-distance="100"
+            :max-snap-element-gap-distance="80"
+            @drag="onDrag"
+            @resize="onResize"
+            @rotate="onRotate"
+          />
         </div>
       </div>
       <div class="props p-4 w-72 border-l border-slate-300">
@@ -149,14 +182,14 @@ const throttledMouseMove = useThrottleFn(handleMouseMove, 20)
             <Textarea v-model="activeElementData.text" class="mb-2" />
             <div class="grid grid-cols-[70px_1fr] items-center gap-2">
               <Label class="text-xs">Align</Label>
-              <ToggleGroup size="sm" type="single" class="justify-normal">
-                <ToggleGroupItem value="a">
+              <ToggleGroup v-model="activeElementData.align" size="sm" type="single" class="justify-normal">
+                <ToggleGroupItem value="left">
                   <Icon class="size-5" icon="carbon:text-align-left" />
                 </ToggleGroupItem>
-                <ToggleGroupItem value="b">
+                <ToggleGroupItem value="center">
                   <Icon class="size-5" icon="carbon:text-align-center" />
                 </ToggleGroupItem>
-                <ToggleGroupItem value="c">
+                <ToggleGroupItem value="right">
                   <Icon class="size-5" icon="carbon:text-align-right" />
                 </ToggleGroupItem>
               </ToggleGroup>

@@ -15,12 +15,12 @@
     "clsx": "^2.1.1",
     "html2canvas": "^1.4.1",
     "lucide-vue-next": "^0.427.0",
-    "moveable": "^0.53.0",
     "radix-vue": "^1.9.4",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "vue": "^3.4.31",
-    "vue-router": "^4.4.3"
+    "vue-router": "^4.4.3",
+    "vue3-moveable": "0.28.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.1",
