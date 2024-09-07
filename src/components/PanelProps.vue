@@ -1,19 +1,26 @@
 <script lang="ts" setup>
-const props = defineProps<{
-  activeElementData: any
-}>()
+import { toRefs } from 'vue'
+import { Textarea } from '@/components/ui/textarea'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Separator } from '@/components/ui/separator'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import { useEditorStore } from '@/store/editor'
+
+const editorStore = useEditorStore()
+const { activeElData } = toRefs(editorStore)
 </script>
 
 <template>
-  <div class="panel-props">
+  <div v-if="activeElData" class="panel-props">
     <div>
       <p class="mb-2">
         Text
       </p>
-      <Textarea v-model="props.activeElementData.text" class="mb-2" />
+      <Textarea v-model="activeElData.text" class="mb-2" />
       <div class="grid grid-cols-[70px_1fr] items-center gap-2">
         <Label class="text-xs">Align</Label>
-        <ToggleGroup v-model="props.activeElementData.align" size="sm" type="single" class="justify-normal">
+        <ToggleGroup v-model="activeElData.align" size="sm" type="single" class="justify-normal">
           <ToggleGroupItem value="left">
             <Icon class="size-5" icon="carbon:text-align-left" />
           </ToggleGroupItem>
@@ -32,26 +39,26 @@ const props = defineProps<{
         Layout
       </p>
       <div class="grid grid-cols-[70px_1fr_1fr] items-center gap-2 mb-2">
-        <Label class="text-sm">Size</Label>
-        <Input v-model="props.activeElementData.size.width" class="h-8" />
-        <Input v-model="props.activeElementData.size.height" class="h-8" />
+        <Label class="text-xs">Size</Label>
+        <Input v-model="activeElData.size.width" class="h-8" />
+        <Input v-model="activeElData.size.height" class="h-8" />
       </div>
       <div class="grid grid-cols-[70px_1fr_1fr] items-center gap-2">
-        <Label class="text-sm">Position</Label>
-        <Input v-model="props.activeElementData.position.x" class="h-8" />
-        <Input v-model="props.activeElementData.position.y" class="h-8" />
+        <Label class="text-xs">Position</Label>
+        <Input v-model="activeElData.position.x" class="h-8" />
+        <Input v-model="activeElData.position.y" class="h-8" />
       </div>
     </div>
     <Separator class="my-4" />
     <div>
       <p>Color</p>
-      <div class="grid grid-cols-[70px_1fr] items-center gap-2">
-        <Label class="text-sm">Fill</Label>
-        <Input v-model="props.activeElementData.fill" type="color" class="h-8" />
+      <div class="grid grid-cols-[70px_1fr] items-center gap-2 mb-2">
+        <Label class="text-xs">Fill</Label>
+        <Input v-model="activeElData.fill" type="color" class="h-8" />
       </div>
       <div class="grid grid-cols-[70px_1fr] items-center gap-2">
-        <Label class="text-sm">Color</Label>
-        <Input v-model="props.activeElementData.color" type="color" class="h-8" />
+        <Label class="text-xs">Color</Label>
+        <Input v-model="activeElData.color" type="color" class="h-8" />
       </div>
     </div>
   </div>
