@@ -1,7 +1,7 @@
-import type { ICanvasProps, IContentBlock } from '@/types'
 import GreenDot from '@/assets/bg-image/green-dot.png'
 import ImageBeBold from '@/assets/templates/be-bold.png'
 import ImageBeProtected from '@/assets/templates/be-protected.jpeg'
+import type { ICanvasProps, IContentBlock } from '@/types'
 
 interface Template {
   name: string

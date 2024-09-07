@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 
 export const useEditorStore = defineStore('editor', {
+  persist: true,
   state: () => ({
     activeElId: '',
     editor: [

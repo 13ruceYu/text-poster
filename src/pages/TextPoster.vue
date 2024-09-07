@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
-import html2canvas from 'html2canvas'
-import { Icon } from '@iconify/vue'
-import CanvasSetting from '@/components/CanvasSetting.vue'
 import BlockSetting from '@/components/BlockSetting.vue'
+import CanvasSetting from '@/components/CanvasSetting.vue'
+import { templateList } from '@/components/mockTemplateData'
 import Navbar from '@/components/Navbar.vue'
 import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
 import { Card } from '@/components/ui/card'
-import type { ICanvasProps, IContentBlock } from '@/types'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { templateList } from '@/components/mockTemplateData'
+import { Textarea } from '@/components/ui/textarea'
+import { Icon } from '@iconify/vue'
+import html2canvas from 'html2canvas'
+import { reactive, ref } from 'vue'
+import type { ICanvasProps, IContentBlock } from '@/types'
 
 const canvas = ref<HTMLCanvasElement | null>(null)
 const canvasKey = ref(0)

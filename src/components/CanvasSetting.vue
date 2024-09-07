@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { Icon } from '@iconify/vue'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import type { ICanvasProps } from '@/types'
-import { fontFamilyOptions } from '@/types'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { bgImageList } from '@/assets/bg-image'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { fontFamilyOptions } from '@/types'
+import { Icon } from '@iconify/vue'
+import type { ICanvasProps } from '@/types'
 
 const props = defineProps<{
   canvasProps: ICanvasProps

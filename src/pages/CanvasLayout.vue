@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import type { Component } from 'vue'
-import { nextTick, ref, toRefs, watch } from 'vue'
-import type { MoveableInterface, OnDrag, OnDragEnd, OnResize, OnResizeEnd, OnRotate } from 'vue3-moveable'
-import Moveable from 'vue3-moveable'
-import { Button } from '@/components/ui/button'
-import PanelProps from '@/components/PanelProps.vue'
-import NavbarCanvas from '@/components/NavbarCanvas.vue'
 import ElText from '@/components/ElText.vue'
+import NavbarCanvas from '@/components/NavbarCanvas.vue'
+import PanelProps from '@/components/PanelProps.vue'
+import { Button } from '@/components/ui/button'
 import { useEditorStore } from '@/store/editor'
+import { nextTick, ref, toRefs, watch } from 'vue'
+import Moveable from 'vue3-moveable'
+import type { Component } from 'vue'
+import type { MoveableInterface, OnDrag, OnDragEnd, OnResize, OnResizeEnd, OnRotate } from 'vue3-moveable'
 
 const editorStore = useEditorStore()
 const { activeElId, activeElData } = toRefs(editorStore)
