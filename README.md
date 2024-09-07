@@ -1,6 +1,9 @@
 # Text Poster
 
-- [ ] async data to local storage
+- [x] async data to local storage
+- [ ] frame setting
+- [ ] color none
+- [ ] shift click multiple
 - [ ] drag select element
 - [ ] best practice of font picker
 - [ ] element align

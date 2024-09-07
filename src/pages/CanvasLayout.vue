@@ -16,9 +16,9 @@ const elComponents: Record<string, Component> = {
   text: ElText,
 }
 
-const activeElement = ref<HTMLElement | null>(null)
 const moveableRef = ref<MoveableInterface | null>(null)
 const moveableElClassArr = editorStore.editor.map(item => `.el-${item.id}`)
+const moveableTarget = ref<string[]>([])
 
 watch(activeElData, () => {
   if (activeElData.value) {
@@ -28,9 +28,9 @@ watch(activeElData, () => {
   }
 }, { deep: true })
 
-function handleMouseDown(mouse: MouseEvent, elId: string) {
-  activeElement.value = mouse.currentTarget as HTMLElement
+function handleMouseDown(_: MouseEvent, elId: string) {
   editorStore.activeElId = elId
+  moveableTarget.value = [`.${elId}`]
 }
 
 function onDrag(e: OnDrag) {
@@ -65,9 +65,7 @@ function onResizeEnd(e: OnResizeEnd) {
 }
 
 function onRotate(e: OnRotate) {
-  if (!activeElement.value)
-    return
-  activeElement.value.style.transform = e.transform
+  e.target.style.transform = e.transform
 }
 </script>
 
@@ -107,21 +105,18 @@ function onRotate(e: OnRotate) {
         </ul>
       </div>
       <div class="canvas bg-slate-200 flex-grow flex justify-center items-center overflow-hidden">
-        <div
-          class="frame bg-white w-[360px] h-[560px] shadow-sm relative"
-        >
+        <div class="frame bg-white w-[360px] h-[560px] shadow-sm relative">
           <component
             :is="elComponents[item.type]"
             v-for="item in editorStore.editor"
             :key="item.id"
-            :class="[`el-${item.id}`]"
-            :attrs="item"
-            @mousedown="handleMouseDown($event, item.id)"
+            :class="item.id"
+            :attrs="item" @mousedown="handleMouseDown($event, item.id)"
           />
           <Moveable
             ref="moveableRef"
             :edge="true"
-            :target="activeElement"
+            :target="moveableTarget"
             :draggable="true"
             :resizable="true"
             :round-clickable="false"

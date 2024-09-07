@@ -22,12 +22,6 @@ import { Separator } from '@/components/ui/separator'
         </p>
       </Button>
       <Button variant="ghost" class="flex-col h-auto py-1">
-        <Icon class="size-6" icon="carbon:square-outline" />
-        <p class="text-xs font-light">
-          Frame
-        </p>
-      </Button>
-      <Button variant="ghost" class="flex-col h-auto py-1">
         <Icon class="size-6" icon="carbon:image" />
         <p class="text-xs font-light">
           Image
