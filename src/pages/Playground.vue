@@ -1,6 +1,6 @@
-<script>
-import Moveable from 'vue3-moveable'
+<script lang="ts">
 import { ref } from 'vue'
+import Moveable from 'vue3-moveable'
 
 export default {
   components: { Moveable },
@@ -9,10 +9,10 @@ export default {
     const maxSnapElementGapDistance = 80
     const targetRef = ref(null)
     const moveableRef = ref(null)
-    const onDrag = (e) => {
+    const onDrag = (e: any) => {
       e.target.style.transform = e.transform
     }
-    const onScale = (e) => {
+    const onScale = (e: any) => {
       e.target.style.transform = e.drag.transform
     }
     return {

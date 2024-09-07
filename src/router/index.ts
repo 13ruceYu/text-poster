@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
 import TextPoster from '@/pages/TextPoster.vue'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   { path: '/', component: TextPoster },
