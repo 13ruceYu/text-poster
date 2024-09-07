@@ -1,6 +1,8 @@
 # Text Poster
 
 - [ ] async data to local storage
+- [ ] drag select element
+- [ ] best practice of font picker
 - [ ] element align
 - [ ] color picker optimize
 - [ ] font-family selector

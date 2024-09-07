@@ -8,9 +8,10 @@ const props = defineProps<{
   <p
     class="text-wrap whitespace-pre-wrap select-none absolute"
     :style="{
-      fontFamily: props.attrs.fontFamily.value,
+      fontFamily: props.attrs.fontFamily,
       color: props.attrs.color,
-      fontSize: props.attrs.fontSize,
+      backgroundColor: props.attrs.fill,
+      fontSize: `${props.attrs.fontSize}px`,
       lineHeight: props.attrs.lineHeight,
       padding: props.attrs.padding,
       textAlign: props.attrs.align,
