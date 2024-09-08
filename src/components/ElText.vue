@@ -17,7 +17,7 @@ const props = defineProps<{
       textAlign: props.attrs.align,
       width: `${props.attrs.size.width}px`,
       height: `${props.attrs.size.height}px`,
-      transform: `translate(${props.attrs.position.x}px, ${props.attrs.position.y}px)`,
+      transform: `translate(${props.attrs.position.x}px, ${props.attrs.position.y}px) rotate(${props.attrs.rotate}deg)`,
       visibility: props.attrs.visibility ? 'visible' : 'hidden',
     }"
   >

@@ -1,4 +1,41 @@
+import { nanoid } from 'nanoid'
 import { defineStore } from 'pinia'
+
+const newTextLayer = {
+  type: 'text',
+  text: 'new text here',
+  size: {
+    width: 300,
+    height: 32,
+  },
+  position: {
+    x: 30,
+    y: 30,
+  },
+  border: {
+    value: 0,
+    color: 'black',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+  },
+  padding: {
+    value: 0,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+  },
+  color: '#000000',
+  fill: '',
+  fontFamily: 'mingchao',
+  fontSize: '16',
+  align: 'left',
+  visibility: true,
+  locked: false,
+  rotate: 0,
+}
 
 export const useEditorStore = defineStore('editor', {
   persist: true,
@@ -37,15 +74,11 @@ export const useEditorStore = defineStore('editor', {
         fill: '#ffffff',
         fontFamily: 'mingchao',
         fontSize: '16',
-        lineHeight: {
-          value: 1.2,
-        },
-        spacing: {
-          value: 4,
-        },
+
         align: 'left',
         visibility: true,
         locked: false,
+        rotate: 0,
       },
       {
         id: 'a002',
@@ -79,15 +112,10 @@ export const useEditorStore = defineStore('editor', {
         fill: '#ffffff',
         fontFamily: 'mingchao',
         fontSize: '32',
-        lineHeight: {
-          value: 1.2,
-        },
-        spacing: {
-          value: 4,
-        },
         align: 'left',
         visibility: true,
         locked: false,
+        rotate: 0,
       },
       {
         id: 'a003',
@@ -121,15 +149,10 @@ export const useEditorStore = defineStore('editor', {
         fill: '#ffffff',
         fontFamily: 'mingchao',
         fontSize: '12',
-        lineHeight: {
-          value: 1.2,
-        },
-        spacing: {
-          value: 4,
-        },
         align: 'left',
         visibility: true,
         locked: false,
+        rotate: 0,
       },
     ],
   }),
@@ -139,6 +162,21 @@ export const useEditorStore = defineStore('editor', {
     },
   },
   actions: {
+    addNewLayer(type: string) {
+      const idAndName = {
+        id: `m${nanoid()}`,
+        name: `text-${nanoid(3)}`,
+      }
+      switch (type) {
+        case 'text':
+          this.editor.push({ ...newTextLayer, ...idAndName })
+          break
+        case 'image':
+          break
+        case 'shape':
+          break
+      }
+    },
     dragLayer(id: string, x: number, y: number) {
       const element = this.editor.find(item => item.id === id)
       if (!element)
@@ -152,6 +190,13 @@ export const useEditorStore = defineStore('editor', {
         return
 
       element.size = { ...element.size, width, height }
+    },
+    rotateLayer(id: string, rotate: number) {
+      const element = this.editor.find(item => item.id === id)
+      if (!element)
+        return
+
+      element.rotate = rotate
     },
     triggerLayerVisibility(id: string) {
       const element = this.editor.find(item => item.id === id)

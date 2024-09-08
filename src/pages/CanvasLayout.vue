@@ -7,7 +7,7 @@ import { useEditorStore } from '@/store/editor'
 import { nextTick, ref, toRefs, watch } from 'vue'
 import Moveable from 'vue3-moveable'
 import type { Component } from 'vue'
-import type { MoveableInterface, OnDrag, OnDragEnd, OnResize, OnResizeEnd, OnRotate } from 'vue3-moveable'
+import type { MoveableInterface, OnDrag, OnDragEnd, OnResize, OnResizeEnd, OnRotate, OnRotateEnd } from 'vue3-moveable'
 
 const editorStore = useEditorStore()
 const { activeLayerId, activeLayerData } = toRefs(editorStore)
@@ -47,6 +47,8 @@ function xyFromTransform(transform: string): [number, number] {
 }
 
 function onDragEnd(e: OnDragEnd) {
+  if (!e.lastEvent)
+    return
   const { transform } = e.lastEvent
   const [x, y] = xyFromTransform(transform)
   editorStore.dragLayer(activeLayerId.value, x, y)
@@ -70,6 +72,13 @@ function onResizeEnd(e: OnResizeEnd) {
 function onRotate(e: OnRotate) {
   e.target.style.transform = e.transform
 }
+
+function onRotateEnd(e: OnRotateEnd) {
+  if (!e.lastEvent)
+    return
+  const { rotate } = e.lastEvent
+  editorStore.rotateLayer(activeLayerId.value, rotate)
+}
 </script>
 
 <template>
@@ -87,7 +96,8 @@ function onRotate(e: OnRotate) {
             v-for="item in editorStore.editor"
             :id="item.id"
             :key="item.id"
-            :attrs="item" @mousedown="handleMouseDown($event, item.id)"
+            :attrs="item"
+            @mousedown="handleMouseDown($event, item.id)"
           />
           <Moveable
             ref="moveableRef"
@@ -95,7 +105,6 @@ function onRotate(e: OnRotate) {
             :target="moveableTarget"
             :draggable="true"
             :resizable="true"
-            :round-clickable="false"
             :rotatable="true"
             :snappable="true"
             :element-guidelines="[...moveableElClassArr, '.frame']"
@@ -108,6 +117,7 @@ function onRotate(e: OnRotate) {
             @resize="onResize"
             @resize-end="onResizeEnd"
             @rotate="onRotate"
+            @rotate-end="onRotateEnd"
           />
         </div>
       </div>

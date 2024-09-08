@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
+import { useEditorStore } from '@/store/editor'
+
+const editorStore = useEditorStore()
 </script>
 
 <template>
@@ -9,7 +12,7 @@ import { Separator } from '@/components/ui/separator'
       name
     </div>
     <div class="center flex items-center gap-2">
-      <Button variant="ghost" class="flex-col h-auto py-1">
+      <Button variant="ghost" class="flex-col h-auto py-1" @click="editorStore.addNewLayer('text')">
         <Icon class="size-6" icon="carbon:text-small-caps" />
         <p class="text-xs font-light">
           Text

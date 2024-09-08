@@ -56,11 +56,23 @@ const { activeLayerData } = toRefs(editorStore)
       <p>Color</p>
       <div class="grid grid-cols-[70px_1fr] items-center gap-2 mb-2">
         <Label class="text-xs">Fill</Label>
-        <Input v-model="activeLayerData.fill" type="color" class="h-8" />
+        <div class="relative">
+          <span
+            class="h-6 w-6 inline-block absolute left-1 top-1 border border-slate-300 rounded-md"
+            :style="{ backgroundColor: activeLayerData.fill }"
+          />
+          <Input v-model="activeLayerData.fill" class="h-8 pl-8" />
+        </div>
       </div>
-      <div class="grid grid-cols-[70px_1fr] items-center gap-2">
-        <Label class="text-xs">Color</Label>
-        <Input v-model="activeLayerData.color" type="color" class="h-8" />
+    </div>
+    <div class="grid grid-cols-[70px_1fr] items-center gap-2">
+      <Label class="text-xs">Color</Label>
+      <div class="relative">
+        <span
+          class="h-6 w-6 inline-block absolute left-1 top-1 border border-slate-300 rounded-md"
+          :style="{ backgroundColor: activeLayerData.color }"
+        />
+        <Input v-model="activeLayerData.color" class="h-8 pl-8" />
       </div>
     </div>
     <Separator class="my-4" />
