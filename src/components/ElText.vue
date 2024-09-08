@@ -18,6 +18,7 @@ const props = defineProps<{
       width: `${props.attrs.size.width}px`,
       height: `${props.attrs.size.height}px`,
       transform: `translate(${props.attrs.position.x}px, ${props.attrs.position.y}px)`,
+      visibility: props.attrs.visibility ? 'visible' : 'hidden',
     }"
   >
     {{ props.attrs.text }}

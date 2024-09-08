@@ -3,10 +3,11 @@ import { defineStore } from 'pinia'
 export const useEditorStore = defineStore('editor', {
   persist: true,
   state: () => ({
-    activeElId: '',
+    activeLayerId: '',
     editor: [
       {
         id: 'a001',
+        name: 'text-sdc',
         type: 'text',
         text: 'Be bold and don\'t be afraid. No one cares, even if someone cares, people are nothing.',
         size: {
@@ -43,9 +44,12 @@ export const useEditorStore = defineStore('editor', {
           value: 4,
         },
         align: 'left',
+        visibility: true,
+        locked: false,
       },
       {
         id: 'a002',
+        name: 'text-sdcc',
         type: 'text',
         text: '大胆去做，不要怕，\n没有人在乎，\n就算有人在乎，\n人又算什么东西。',
         size: {
@@ -82,9 +86,12 @@ export const useEditorStore = defineStore('editor', {
           value: 4,
         },
         align: 'left',
+        visibility: true,
+        locked: false,
       },
       {
         id: 'a003',
+        name: 'text-sdc9',
         type: 'text',
         text: '/萨特',
         size: {
@@ -121,12 +128,14 @@ export const useEditorStore = defineStore('editor', {
           value: 4,
         },
         align: 'left',
+        visibility: true,
+        locked: false,
       },
     ],
   }),
   getters: {
-    activeElData(state) {
-      return state.editor.find((item: { id: string }) => item.id === state.activeElId)
+    activeLayerData(state) {
+      return state.editor.find((item: { id: string }) => item.id === state.activeLayerId)
     },
   },
   actions: {
@@ -151,6 +160,20 @@ export const useEditorStore = defineStore('editor', {
         return
 
       element.size = { ...element.size, width, height }
+    },
+    triggerLayerVisibility(id: string) {
+      const element = this.editor.find(item => item.id === id)
+      if (!element)
+        return
+
+      element.visibility = !element.visibility
+    },
+    triggerLayerLocked(id: string) {
+      const element = this.editor.find(item => item.id === id)
+      if (!element)
+        return
+
+      element.locked = !element.locked
     },
   },
 })

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import ElText from '@/components/ElText.vue'
 import NavbarCanvas from '@/components/NavbarCanvas.vue'
+import PanelLayer from '@/components/PanelLayer.vue'
 import PanelProps from '@/components/PanelProps.vue'
-import { Button } from '@/components/ui/button'
 import { useEditorStore } from '@/store/editor'
 import { nextTick, ref, toRefs, watch } from 'vue'
 import Moveable from 'vue3-moveable'
@@ -10,7 +10,7 @@ import type { Component } from 'vue'
 import type { MoveableInterface, OnDrag, OnDragEnd, OnResize, OnResizeEnd, OnRotate } from 'vue3-moveable'
 
 const editorStore = useEditorStore()
-const { activeElId, activeElData } = toRefs(editorStore)
+const { activeLayerId, activeLayerData } = toRefs(editorStore)
 
 const elComponents: Record<string, Component> = {
   text: ElText,
@@ -20,17 +20,20 @@ const moveableRef = ref<MoveableInterface | null>(null)
 const moveableElClassArr = editorStore.editor.map(item => `.el-${item.id}`)
 const moveableTarget = ref<string[]>([])
 
-watch(activeElData, () => {
-  if (activeElData.value) {
+watch(activeLayerData, () => {
+  if (activeLayerData.value) {
     nextTick(() => {
       moveableRef.value?.updateRect()
     })
   }
 }, { deep: true })
 
+watch(activeLayerId, () => {
+  moveableTarget.value = [`#${activeLayerId.value}`]
+})
+
 function handleMouseDown(_: MouseEvent, elId: string) {
-  editorStore.activeElId = elId
-  moveableTarget.value = [`.${elId}`]
+  editorStore.activeLayerId = elId
 }
 
 function onDrag(e: OnDrag) {
@@ -46,7 +49,7 @@ function xyFromTransform(transform: string): [number, number] {
 function onDragEnd(e: OnDragEnd) {
   const { transform } = e.lastEvent
   const [x, y] = xyFromTransform(transform)
-  editorStore.dragElement(activeElId.value, x, y)
+  editorStore.dragElement(activeLayerId.value, x, y)
 }
 
 function onResize(e: OnResize) {
@@ -60,8 +63,8 @@ function onResizeEnd(e: OnResizeEnd) {
     return
   const { transform, width, height } = e.lastEvent
   const [x, y] = xyFromTransform(transform)
-  editorStore.dragElement(activeElId.value, x, y)
-  editorStore.resizeElement(activeElId.value, width, height)
+  editorStore.dragElement(activeLayerId.value, x, y)
+  editorStore.resizeElement(activeLayerId.value, width, height)
 }
 
 function onRotate(e: OnRotate) {
@@ -75,42 +78,15 @@ function onRotate(e: OnRotate) {
     <main class="flex-grow flex">
       <div class="layers p-4 w-64 border-r border-slate-300">
         <div>Layers</div>
-        <ul>
-          <li class="flex items-center gap-2 justify-between hover:bg-slate-200 p-2 rounded-sm">
-            <div class="flex items-center gap-2">
-              <Icon icon="carbon:square-outline" class="size-5" /><span>frame</span>
-            </div>
-            <div>
-              <Button size="xs" variant="ghost">
-                <Icon icon="carbon:view" />
-              </Button>
-              <Button size="xs" variant="ghost">
-                <Icon icon="carbon:unlocked" />
-              </Button>
-            </div>
-          </li>
-          <li class="flex items-center gap-2 justify-between hover:bg-slate-200 p-2 rounded-sm">
-            <div class="flex items-center gap-2">
-              <Icon icon="carbon:image" class="size-5" /><span>image-layer</span>
-            </div>
-            <div>
-              <Button size="xs" variant="ghost">
-                <Icon icon="carbon:view" />
-              </Button>
-              <Button size="xs" variant="ghost">
-                <Icon icon="carbon:unlocked" />
-              </Button>
-            </div>
-          </li>
-        </ul>
+        <PanelLayer />
       </div>
       <div class="canvas bg-slate-200 flex-grow flex justify-center items-center overflow-hidden">
         <div class="frame bg-white w-[360px] h-[560px] shadow-sm relative">
           <component
             :is="elComponents[item.type]"
             v-for="item in editorStore.editor"
+            :id="item.id"
             :key="item.id"
-            :class="item.id"
             :attrs="item" @mousedown="handleMouseDown($event, item.id)"
           />
           <Moveable

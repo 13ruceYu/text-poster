@@ -1,6 +1,7 @@
 # Text Poster
 
 - [x] async data to local storage
+- [ ] layer list panel
 - [ ] frame setting
 - [ ] color none
 - [ ] shift click multiple
