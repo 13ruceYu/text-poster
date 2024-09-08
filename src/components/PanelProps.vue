@@ -10,19 +10,19 @@ import { fontFamilyOptions } from '@/types'
 import { toRefs } from 'vue'
 
 const editorStore = useEditorStore()
-const { activeElData } = toRefs(editorStore)
+const { activeLayerData } = toRefs(editorStore)
 </script>
 
 <template>
-  <div v-if="activeElData" class="panel-props">
+  <div v-if="activeLayerData" class="panel-props">
     <div>
       <p class="mb-2">
         Text
       </p>
-      <Textarea v-model="activeElData.text" class="mb-2" />
+      <Textarea v-model="activeLayerData.text" class="mb-2" />
       <div class="grid grid-cols-[70px_1fr] items-center gap-2">
         <Label class="text-xs">Align</Label>
-        <ToggleGroup v-model="activeElData.align" size="sm" type="single" class="justify-normal">
+        <ToggleGroup v-model="activeLayerData.align" size="sm" type="single" class="justify-normal">
           <ToggleGroupItem value="left">
             <Icon class="size-5" icon="carbon:text-align-left" />
           </ToggleGroupItem>
@@ -42,13 +42,13 @@ const { activeElData } = toRefs(editorStore)
       </p>
       <div class="grid grid-cols-[70px_1fr_1fr] items-center gap-2 mb-2">
         <Label class="text-xs">Size</Label>
-        <Input v-model="activeElData.size.width" class="h-8" />
-        <Input v-model="activeElData.size.height" class="h-8" />
+        <Input v-model="activeLayerData.size.width" class="h-8" />
+        <Input v-model="activeLayerData.size.height" class="h-8" />
       </div>
       <div class="grid grid-cols-[70px_1fr_1fr] items-center gap-2">
         <Label class="text-xs">Position</Label>
-        <Input v-model="activeElData.position.x" class="h-8" />
-        <Input v-model="activeElData.position.y" class="h-8" />
+        <Input v-model="activeLayerData.position.x" class="h-8" />
+        <Input v-model="activeLayerData.position.y" class="h-8" />
       </div>
     </div>
     <Separator class="my-4" />
@@ -56,11 +56,11 @@ const { activeElData } = toRefs(editorStore)
       <p>Color</p>
       <div class="grid grid-cols-[70px_1fr] items-center gap-2 mb-2">
         <Label class="text-xs">Fill</Label>
-        <Input v-model="activeElData.fill" type="color" class="h-8" />
+        <Input v-model="activeLayerData.fill" type="color" class="h-8" />
       </div>
       <div class="grid grid-cols-[70px_1fr] items-center gap-2">
         <Label class="text-xs">Color</Label>
-        <Input v-model="activeElData.color" type="color" class="h-8" />
+        <Input v-model="activeLayerData.color" type="color" class="h-8" />
       </div>
     </div>
     <Separator class="my-4" />
@@ -68,9 +68,9 @@ const { activeElData } = toRefs(editorStore)
       <p>Font</p>
       <div class="grid grid-cols-[70px_1fr] items-center gap-2 mb-2">
         <Label class="text-xs">Family</Label>
-        <Select v-model="activeElData.fontFamily">
+        <Select v-model="activeLayerData.fontFamily">
           <SelectTrigger class="h-8">
-            <SelectValue :value="activeElData.fontFamily" />
+            <SelectValue :value="activeLayerData.fontFamily" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem v-for="fontFamily in fontFamilyOptions" :key="fontFamily" :style="{ fontFamily }" :value="fontFamily">
@@ -81,7 +81,7 @@ const { activeElData } = toRefs(editorStore)
       </div>
       <div class="grid grid-cols-[70px_1fr] items-center gap-2">
         <Label class="text-xs">Size</Label>
-        <Input v-model="activeElData.fontSize" class="h-8" />
+        <Input v-model="activeLayerData.fontSize" class="h-8" />
       </div>
     </div>
   </div>

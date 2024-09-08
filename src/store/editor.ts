@@ -139,22 +139,14 @@ export const useEditorStore = defineStore('editor', {
     },
   },
   actions: {
-    dragElement(id: string, x: number, y: number) {
+    dragLayer(id: string, x: number, y: number) {
       const element = this.editor.find(item => item.id === id)
       if (!element)
         return
 
       element.position = { ...element.position, x, y }
     },
-    adjustElementPosition(id: string, xOffset: number, yOffset: number) {
-      const element = this.editor.find(item => item.id === id)
-      if (!element)
-        return
-
-      element.position.x += xOffset
-      element.position.y += yOffset
-    },
-    resizeElement(id: string, width: number, height: number) {
+    resizeLayer(id: string, width: number, height: number) {
       const element = this.editor.find(item => item.id === id)
       if (!element)
         return

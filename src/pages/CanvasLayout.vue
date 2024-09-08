@@ -49,7 +49,7 @@ function xyFromTransform(transform: string): [number, number] {
 function onDragEnd(e: OnDragEnd) {
   const { transform } = e.lastEvent
   const [x, y] = xyFromTransform(transform)
-  editorStore.dragElement(activeLayerId.value, x, y)
+  editorStore.dragLayer(activeLayerId.value, x, y)
 }
 
 function onResize(e: OnResize) {
@@ -63,8 +63,8 @@ function onResizeEnd(e: OnResizeEnd) {
     return
   const { transform, width, height } = e.lastEvent
   const [x, y] = xyFromTransform(transform)
-  editorStore.dragElement(activeLayerId.value, x, y)
-  editorStore.resizeElement(activeLayerId.value, width, height)
+  editorStore.dragLayer(activeLayerId.value, x, y)
+  editorStore.resizeLayer(activeLayerId.value, width, height)
 }
 
 function onRotate(e: OnRotate) {
