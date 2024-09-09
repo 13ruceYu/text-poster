@@ -45,10 +45,14 @@ const { activeLayerData } = toRefs(editorStore)
         <Input v-model="activeLayerData.size.width" class="h-8" />
         <Input v-model="activeLayerData.size.height" class="h-8" />
       </div>
-      <div class="grid grid-cols-[70px_1fr_1fr] items-center gap-2">
+      <div class="grid grid-cols-[70px_1fr_1fr] items-center gap-2 mb-2">
         <Label class="text-xs">Position</Label>
         <Input v-model="activeLayerData.position.x" class="h-8" />
         <Input v-model="activeLayerData.position.y" class="h-8" />
+      </div>
+      <div class="grid grid-cols-[70px_1fr] items-center gap-2">
+        <Label class="text-xs">Rotation</Label>
+        <Input v-model="activeLayerData.rotate" class="h-8" />
       </div>
     </div>
     <Separator class="my-4" />

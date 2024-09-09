@@ -37,7 +37,7 @@ const editorStore = useEditorStore()
           Hide
         </p>
       </Button>
-      <Button variant="ghost" class="flex-col h-auto py-1">
+      <Button variant="ghost" class="flex-col h-auto py-1" @click="editorStore.deleteLayer(editorStore.activeLayerId)">
         <Icon class="size-6" icon="carbon:trash-can" />
         <p class="text-xs font-light">
           Delete

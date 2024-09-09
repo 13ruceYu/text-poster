@@ -1,9 +1,11 @@
 # Text Poster
 
 - [x] async data to local storage
-- [ ] layer list panel
+- [x] layer list panel
+- [ ] drag layer to order
+- [ ] separate color picker input
 - [ ] frame setting
-- [ ] color none
+- [x] color none
 - [ ] shift click multiple
 - [ ] drag select element
 - [ ] best practice of font picker

@@ -176,6 +176,15 @@ export const useEditorStore = defineStore('editor', {
         case 'shape':
           break
       }
+      this.activeLayerId = idAndName.id
+    },
+    deleteLayer(id: string) {
+      const index = this.editor.findIndex(item => item.id === id)
+      if (index === -1)
+        return
+      this.editor.splice(index, 1)
+      if (this.activeLayerId === id)
+        this.activeLayerId = ''
     },
     dragLayer(id: string, x: number, y: number) {
       const element = this.editor.find(item => item.id === id)

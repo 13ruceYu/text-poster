@@ -29,7 +29,12 @@ watch(activeLayerData, () => {
 }, { deep: true })
 
 watch(activeLayerId, () => {
-  moveableTarget.value = [`#${activeLayerId.value}`]
+  if (activeLayerId.value) {
+    moveableTarget.value = [`#${activeLayerId.value}`]
+  }
+  else {
+    moveableTarget.value = []
+  }
 })
 
 function handleMouseDown(_: MouseEvent, elId: string) {
