@@ -186,6 +186,30 @@ export const useEditorStore = defineStore('editor', {
       if (this.activeLayerId === id)
         this.activeLayerId = ''
     },
+    moveLayerFront(id: string) {
+      const element = this.editor.find(item => item.id === id)
+      if (!element)
+        return
+
+      const index = this.editor.findIndex(item => item.id === id)
+      if (index === -1)
+        return
+
+      this.editor.splice(index, 1)
+      this.editor.unshift(element)
+    },
+    moveLayerBack(id: string) {
+      const element = this.editor.find(item => item.id === id)
+      if (!element)
+        return
+
+      const index = this.editor.findIndex(item => item.id === id)
+      if (index === -1)
+        return
+
+      this.editor.splice(index, 1)
+      this.editor.push(element)
+    },
     dragLayer(id: string, x: number, y: number) {
       const element = this.editor.find(item => item.id === id)
       if (!element)

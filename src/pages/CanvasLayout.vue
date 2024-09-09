@@ -10,7 +10,7 @@ import type { Component } from 'vue'
 import type { MoveableInterface, OnDrag, OnDragEnd, OnResize, OnResizeEnd, OnRotate, OnRotateEnd } from 'vue3-moveable'
 
 const editorStore = useEditorStore()
-const { activeLayerId, activeLayerData } = toRefs(editorStore)
+const { activeLayerId, activeLayerData, editor } = toRefs(editorStore)
 
 const elComponents: Record<string, Component> = {
   text: ElText,
@@ -98,7 +98,7 @@ function onRotateEnd(e: OnRotateEnd) {
         <div class="frame bg-white w-[360px] h-[560px] shadow-sm relative">
           <component
             :is="elComponents[item.type]"
-            v-for="item in editorStore.editor"
+            v-for="item in [...editor].reverse()"
             :id="item.id"
             :key="item.id"
             :attrs="item"

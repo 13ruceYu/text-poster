@@ -31,6 +31,18 @@ const editorStore = useEditorStore()
         </p>
       </Button>
       <Separator class="h-8" orientation="vertical" />
+      <Button variant="ghost" class="flex-col h-auto py-1" @click="editorStore.moveLayerFront(editorStore.activeLayerId)">
+        <Icon class="size-6" icon="carbon:bring-to-front" />
+        <p class="text-xs font-light">
+          Front
+        </p>
+      </Button>
+      <Button variant="ghost" class="flex-col h-auto py-1" @click="editorStore.moveLayerBack(editorStore.activeLayerId)">
+        <Icon class="size-6" icon="carbon:send-to-back" />
+        <p class="text-xs font-light">
+          Back
+        </p>
+      </Button>
       <Button variant="ghost" class="flex-col h-auto py-1">
         <Icon class="size-6" icon="carbon:view" />
         <p class="text-xs font-light">
