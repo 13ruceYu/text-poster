@@ -1,8 +1,51 @@
 import { nanoid } from 'nanoid'
 import { defineStore } from 'pinia'
 
-const newTextLayer = {
+interface Layer {
+  frameId?: string
+  id: string
+  name: string
+  type: 'text' | 'image' | 'shape' | 'frame'
+  zIndex: number
+  text: string
+  size: {
+    width: number
+    height: number
+  }
+  position: {
+    x: number
+    y: number
+  }
+  border: {
+    value: number
+    color: string
+    left: number
+    right: number
+    top: number
+    bottom: number
+  }
+  padding: {
+    value: number
+    left: number
+    right: number
+    top: number
+    bottom: number
+  }
+  color: string
+  fill: string
+  fontFamily: string
+  fontSize: string
+  align: string
+  visibility: boolean
+  locked: boolean
+  rotate: number
+}
+
+const newTextLayer: Layer = {
+  id: '',
+  name: '',
   type: 'text',
+  zIndex: 0,
   text: 'new text here',
   size: {
     width: 300,
@@ -40,15 +83,30 @@ const newTextLayer = {
 export const useEditorStore = defineStore('editor', {
   persist: true,
   state: () => ({
+    editorName: 'text-poster',
     activeLayerId: '',
-    editor: [
+    activeLayerType: '',
+    frames: [
+      {
+        id: 'f001',
+        name: 'frame-sdc',
+        type: 'frame',
+        size: {
+          width: 360,
+          height: 560,
+        },
+        fill: '#ffffff',
+      },
+    ],
+    layers: [
       {
         id: 'a001',
         name: 'text-sdc',
         type: 'text',
+        zIndex: 0,
         text: 'Be bold and don\'t be afraid. No one cares, even if someone cares, people are nothing.',
         size: {
-          width: '300',
+          width: 300,
           height: 50,
         },
         position: {
@@ -123,7 +181,7 @@ export const useEditorStore = defineStore('editor', {
         type: 'text',
         text: '/萨特',
         size: {
-          width: '300',
+          width: 300,
           height: 'auto',
         },
         position: {
@@ -157,8 +215,11 @@ export const useEditorStore = defineStore('editor', {
     ],
   }),
   getters: {
-    activeLayerData(state) {
-      return state.editor.find((item: { id: string }) => item.id === state.activeLayerId)
+    layerData(state) {
+      return state.layers.find((item: { id: string }) => item.id === state.activeLayerId)
+    },
+    frameData(state) {
+      return state.frames.find((item: { id: string }) => item.id === state.activeLayerId)
     },
   },
   actions: {
@@ -169,7 +230,7 @@ export const useEditorStore = defineStore('editor', {
       }
       switch (type) {
         case 'text':
-          this.editor.push({ ...newTextLayer, ...idAndName })
+          this.layers.push({ ...newTextLayer, ...idAndName })
           break
         case 'image':
           break
@@ -179,67 +240,67 @@ export const useEditorStore = defineStore('editor', {
       this.activeLayerId = idAndName.id
     },
     deleteLayer(id: string) {
-      const index = this.editor.findIndex(item => item.id === id)
+      const index = this.layers.findIndex(item => item.id === id)
       if (index === -1)
         return
-      this.editor.splice(index, 1)
+      this.layers.splice(index, 1)
       if (this.activeLayerId === id)
         this.activeLayerId = ''
     },
     moveLayerFront(id: string) {
-      const element = this.editor.find(item => item.id === id)
+      const element = this.layers.find(item => item.id === id)
       if (!element)
         return
 
-      const index = this.editor.findIndex(item => item.id === id)
+      const index = this.layers.findIndex(item => item.id === id)
       if (index === -1)
         return
 
-      this.editor.splice(index, 1)
-      this.editor.unshift(element)
+      this.layers.splice(index, 1)
+      this.layers.unshift(element)
     },
     moveLayerBack(id: string) {
-      const element = this.editor.find(item => item.id === id)
+      const element = this.layers.find(item => item.id === id)
       if (!element)
         return
 
-      const index = this.editor.findIndex(item => item.id === id)
+      const index = this.layers.findIndex(item => item.id === id)
       if (index === -1)
         return
 
-      this.editor.splice(index, 1)
-      this.editor.push(element)
+      this.layers.splice(index, 1)
+      this.layers.push(element)
     },
     dragLayer(id: string, x: number, y: number) {
-      const element = this.editor.find(item => item.id === id)
+      const element = this.layers.find(item => item.id === id)
       if (!element)
         return
 
       element.position = { ...element.position, x, y }
     },
     resizeLayer(id: string, width: number, height: number) {
-      const element = this.editor.find(item => item.id === id)
+      const element = this.layers.find(item => item.id === id)
       if (!element)
         return
 
       element.size = { ...element.size, width, height }
     },
     rotateLayer(id: string, rotate: number) {
-      const element = this.editor.find(item => item.id === id)
+      const element = this.layers.find(item => item.id === id)
       if (!element)
         return
 
       element.rotate = rotate
     },
     triggerLayerVisibility(id: string) {
-      const element = this.editor.find(item => item.id === id)
+      const element = this.layers.find(item => item.id === id)
       if (!element)
         return
 
       element.visibility = !element.visibility
     },
     triggerLayerLocked(id: string) {
-      const element = this.editor.find(item => item.id === id)
+      const element = this.layers.find(item => item.id === id)
       if (!element)
         return
 

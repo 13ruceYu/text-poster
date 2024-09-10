@@ -3,22 +3,25 @@ import ElText from '@/components/ElText.vue'
 import NavbarCanvas from '@/components/NavbarCanvas.vue'
 import PanelLayer from '@/components/PanelLayer.vue'
 import PanelProps from '@/components/PanelProps.vue'
+import { Button } from '@/components/ui/button'
 import { useEditorStore } from '@/store/editor'
+import { generateScreenshot } from '@/utils'
 import { nextTick, ref, toRefs, watch } from 'vue'
 import Moveable from 'vue3-moveable'
 import type { Component } from 'vue'
 import type { MoveableInterface, OnDrag, OnDragEnd, OnResize, OnResizeEnd, OnRotate, OnRotateEnd } from 'vue3-moveable'
 
 const editorStore = useEditorStore()
-const { activeLayerId, activeLayerData, editor } = toRefs(editorStore)
+const { activeLayerId, layerData: activeLayerData, layers: editor } = toRefs(editorStore)
 
 const elComponents: Record<string, Component> = {
   text: ElText,
 }
 
 const moveableRef = ref<MoveableInterface | null>(null)
-const moveableElClassArr = editorStore.editor.map(item => `.el-${item.id}`)
+const moveableElClassArr = editorStore.layers.map(item => `.el-${item.id}`)
 const moveableTarget = ref<string[]>([])
+const frame = ref<HTMLDivElement | null>(null)
 
 watch(activeLayerData, () => {
   if (activeLayerData.value) {
@@ -37,8 +40,9 @@ watch(activeLayerId, () => {
   }
 })
 
-function handleMouseDown(_: MouseEvent, elId: string) {
+function handleMouseDown(_: MouseEvent, elId: string, type: string) {
   editorStore.activeLayerId = elId
+  editorStore.activeLayerType = type
 }
 
 function onDrag(e: OnDrag) {
@@ -84,6 +88,10 @@ function onRotateEnd(e: OnRotateEnd) {
   const { rotate } = e.lastEvent
   editorStore.rotateLayer(activeLayerId.value, rotate)
 }
+
+function downloadImg() {
+  generateScreenshot(frame.value)
+}
 </script>
 
 <template>
@@ -95,14 +103,18 @@ function onRotateEnd(e: OnRotateEnd) {
         <PanelLayer />
       </div>
       <div class="canvas bg-slate-200 flex-grow flex justify-center items-center overflow-hidden">
-        <div class="frame bg-white w-[360px] h-[560px] shadow-sm relative">
+        <div
+          ref="frame"
+          :style="{ width: `${editorStore.frames[0].size.width}px`, height: `${editorStore.frames[0].size.height}px`, backgroundColor: editorStore.frames[0].fill }"
+          class="frame bg-white w-[360px] h-[560px] shadow-sm relative"
+        >
           <component
             :is="elComponents[item.type]"
             v-for="item in [...editor].reverse()"
             :id="item.id"
             :key="item.id"
             :attrs="item"
-            @mousedown="handleMouseDown($event, item.id)"
+            @mousedown="handleMouseDown($event, item.id, item.type)"
           />
           <Moveable
             ref="moveableRef"
@@ -124,6 +136,11 @@ function onRotateEnd(e: OnRotateEnd) {
             @rotate="onRotate"
             @rotate-end="onRotateEnd"
           />
+          <div class="absolute top-0 right-0 -translate-y-8">
+            <Button variant="ghost" size="xs" class="hover:bg-slate-100/80" @click="downloadImg">
+              <Icon class="text-slate-500 size-4" icon="carbon:download" />
+            </Button>
+          </div>
         </div>
       </div>
       <div class="props p-4 w-72 border-l border-slate-300">

@@ -2,7 +2,8 @@
 
 - [x] async data to local storage
 - [x] layer list panel
-- [ ] drag layer to order
+- [x] drag layer to order
+- [ ] hot key bind
 - [ ] separate color picker input
 - [ ] frame setting
 - [x] color none

@@ -9,7 +9,7 @@ const editorStore = useEditorStore()
 <template>
   <nav class="h-16 px-2 flex items-center gap-4 justify-between border border-slate-300">
     <div class="project-name">
-      name
+      {{ editorStore.editorName }}
     </div>
     <div class="center flex items-center gap-2">
       <Button variant="ghost" class="flex-col h-auto py-1" @click="editorStore.addNewLayer('text')">
@@ -70,9 +70,6 @@ const editorStore = useEditorStore()
       </Button>
     </div>
     <div class="right flex gap-2">
-      <Button size="sm">
-        Export
-      </Button>
       <Button size="sm">
         Save
       </Button>
