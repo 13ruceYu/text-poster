@@ -13,9 +13,8 @@ const elTypeIconMap: Record<string, string> = {
   shape: 'ion:shapes-outline',
 }
 
-function activeLayer(id: string, type: string) {
+function activeLayer(id: string) {
   editorStore.activeLayerId = id
-  editorStore.activeLayerType = type
 }
 </script>
 
@@ -24,7 +23,7 @@ function activeLayer(id: string, type: string) {
     <div
       class="flex items-center gap-2 p-2 my-1 rounded-sm cursor-pointer hover:bg-slate-200"
       :class="activeLayerId === frames[0].id ? 'bg-slate-200' : ''"
-      @click="activeLayer(frames[0].id, frames[0].type)"
+      @click="activeLayer(frames[0].id)"
     >
       <Icon icon="carbon:align-box-top-left" class="size-5" />
       <span class="text-sm">{{ frames[0].name }}</span>
@@ -36,7 +35,7 @@ function activeLayer(id: string, type: string) {
         <li
           :key="layer.id"
           class="group flex items-center gap-2 justify-between hover:bg-slate-200 p-1 my-1 rounded-sm" :class="activeLayerId === layer.id ? 'bg-slate-200' : ''"
-          @click="activeLayer(layer.id, layer.type)"
+          @click="activeLayer(layer.id)"
         >
           <div class="flex items-center">
             <Icon icon="carbon:draggable" class="text-slate-400 cursor-move invisible group-hover:visible" />

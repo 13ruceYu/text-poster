@@ -85,7 +85,6 @@ export const useEditorStore = defineStore('editor', {
   state: () => ({
     editorName: 'text-poster',
     activeLayerId: '',
-    activeLayerType: '',
     frames: [
       {
         id: 'f001',
@@ -182,7 +181,7 @@ export const useEditorStore = defineStore('editor', {
         text: '/萨特',
         size: {
           width: 300,
-          height: 'auto',
+          height: -1,
         },
         position: {
           x: 30,
@@ -220,6 +219,9 @@ export const useEditorStore = defineStore('editor', {
     },
     frameData(state) {
       return state.frames.find((item: { id: string }) => item.id === state.activeLayerId)
+    },
+    activeLayerType(state) {
+      return [...state.layers, ...state.frames].find((item: { id: string }) => item.id === state.activeLayerId)?.type
     },
   },
   actions: {
@@ -305,6 +307,13 @@ export const useEditorStore = defineStore('editor', {
         return
 
       element.locked = !element.locked
+    },
+    modifyLayer(id: string, key: Exclude<keyof Layer, 'frameId'>, value: any) {
+      const element = this.layers.find(item => item.id === id)
+      if (!element)
+        return
+      const newEl = { ...element, [key]: value }
+      this.layers.splice(this.layers.findIndex(item => item.id === id), 1, newEl)
     },
   },
 })

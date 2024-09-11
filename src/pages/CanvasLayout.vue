@@ -40,9 +40,8 @@ watch(activeLayerId, () => {
   }
 })
 
-function handleMouseDown(_: MouseEvent, elId: string, type: string) {
+function handleMouseDown(_: MouseEvent, elId: string) {
   editorStore.activeLayerId = elId
-  editorStore.activeLayerType = type
 }
 
 function onDrag(e: OnDrag) {
@@ -107,14 +106,16 @@ function downloadImg() {
           ref="frame"
           :style="{ width: `${editorStore.frames[0].size.width}px`, height: `${editorStore.frames[0].size.height}px`, backgroundColor: editorStore.frames[0].fill }"
           class="frame bg-white w-[360px] h-[560px] shadow-sm relative"
+          @click.self="editorStore.activeLayerId = editorStore.frames[0].id"
         >
           <component
             :is="elComponents[item.type]"
             v-for="item in [...editor].reverse()"
             :id="item.id"
             :key="item.id"
+            :class="[item.id === activeLayerId ? 'outline-none' : 'hover:outline-dashed hover:outline-blue-400']"
             :attrs="item"
-            @mousedown="handleMouseDown($event, item.id, item.type)"
+            @mousedown="handleMouseDown($event, item.id)"
           />
           <Moveable
             ref="moveableRef"
