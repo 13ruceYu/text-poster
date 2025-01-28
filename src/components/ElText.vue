@@ -1,20 +1,35 @@
 <script lang="ts" setup>
 import { useEditorStore } from '@/store/editor'
+import { onClickOutside } from '@vueuse/core'
+import { nextTick, ref } from 'vue'
 
 const props = defineProps<{
   attrs: any
 }>()
 const editorStore = useEditorStore()
+const contenteditable = ref(false)
+const textEl = ref<HTMLInputElement | null>(null)
 
 function handleChange(e: Event) {
   const target = e.target as HTMLElement
   editorStore.modifyLayer(props.attrs.id, 'text', target.textContent)
 }
+
+function handleDblClick(e: Event) {
+  contenteditable.value = true
+  nextTick(() => {
+    const target = e.target as HTMLElement
+    target.focus()
+  })
+}
+
+onClickOutside(textEl, _ => contenteditable.value = false)
 </script>
 
 <template>
   <p
-    contenteditable="true"
+    ref="textEl"
+    :contenteditable="contenteditable"
     class="text-wrap whitespace-pre-wrap select-none absolute"
     :style="{
       fontFamily: props.attrs.fontFamily,
@@ -30,6 +45,7 @@ function handleChange(e: Event) {
       visibility: props.attrs.visibility ? 'visible' : 'hidden',
     }"
     @input="handleChange"
+    @dblclick="handleDblClick"
   >
     {{ props.attrs.text }}
   </p>

@@ -155,8 +155,8 @@ function applyTemplate(template: Template) {
         </div>
       </div>
     </div>
-    <div class="text-center text-sm text-slate-400 h-6">
-      Made with ❤️ by Bruce
+    <div class="flex items-center justify-center text-sm text-slate-400 h-8">
+      Made with ❤️ by Bruce <Icon class="ml-2" icon="radix-icons:github-logo" />
     </div>
   </div>
 </template>

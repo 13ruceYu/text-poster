@@ -232,7 +232,7 @@ export const useEditorStore = defineStore('editor', {
       }
       switch (type) {
         case 'text':
-          this.layers.push({ ...newTextLayer, ...idAndName })
+          this.layers.unshift({ ...newTextLayer, ...idAndName })
           break
         case 'image':
           break
