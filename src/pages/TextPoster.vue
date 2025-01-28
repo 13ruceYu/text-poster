@@ -156,7 +156,9 @@ function applyTemplate(template: Template) {
       </div>
     </div>
     <div class="flex items-center justify-center text-sm text-slate-400 h-8">
-      Made with ❤️ by Bruce <Icon class="ml-2" icon="radix-icons:github-logo" />
+      Made with ❤️ by Bruce <a href="https://github.com/13ruceYu/text-poster" target="_blank">
+        <Icon class="ml-2 cursor-pointer" icon="radix-icons:github-logo" />
+      </a>
     </div>
   </div>
 </template>
