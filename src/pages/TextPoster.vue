@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/card'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Textarea } from '@/components/ui/textarea'
 import { Icon } from '@iconify/vue'
+import { useDateFormat, useNow } from '@vueuse/core'
 import html2canvas from 'html2canvas'
 import { reactive, ref } from 'vue'
 import type { ICanvasProps, IContentBlock } from '@/types'
@@ -36,8 +37,9 @@ function generateScreenshot() {
 
       // Create a link element and trigger download
       const link = document.createElement('a')
+      const downloadName = `tp-${useDateFormat(useNow().value, 'YYYY-MM-DD_HH:mm:ss').value}.png`
       link.href = dataURL
-      link.download = 'screenshot.png'
+      link.download = downloadName
       link.click()
     })
   }
